@@ -1,9 +1,0 @@
-id=1, customerId=1, itineraryId=2, paymentMethod=CASH, paymentAmount=504.00
-id=2, customerId=2, itineraryId=3, paymentMethod=CASH, paymentAmount=336.00
-id=3, customerId=3, itineraryId=3, paymentMethod=CREDIT_CARD, paymentAmount=224.00
-id=4, customerId=2, itineraryId=4, paymentMethod=CREDIT_CARD, paymentAmount=341.00
-id=5, customerId=3, itineraryId=4, paymentMethod=CASH, paymentAmount=279.00
-id=6, customerId=4, itineraryId=7, paymentMethod=CREDIT_CARD, paymentAmount=385.00
-id=7, customerId=5, itineraryId=7, paymentMethod=CREDIT_CARD, paymentAmount=385.00
-id=9, customerId=1, itineraryId=3, paymentMethod=CASH, paymentAmount=336.00
-id=10, customerId=10, itineraryId=1, paymentMethod=CREDIT_CARD, paymentAmount=330.00

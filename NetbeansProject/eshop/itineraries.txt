@@ -1,9 +1,0 @@
-id=1, departureAirportCode=ATH, destinationAirportCode=PAR, departureDate=22/02/2022 13:35, Airline=SkyLines, tickets=248, price=300
-id=2, departureAirportCode=ATH, destinationAirportCode=LON, departureDate=22/02/2022 13:40, Airline=SkyLines, tickets=250, price=420
-id=3, departureAirportCode=ATH, destinationAirportCode=AMS, departureDate=22/02/2022 13:45, Airline=SkyLines, tickets=250, price=280
-id=4, departureAirportCode=ATH, destinationAirportCode=PAR, departureDate=22/02/2022 14:20, Airline=SkyLines, tickets=250, price=310
-id=5, departureAirportCode=ATH, destinationAirportCode=DUB, departureDate=22/02/2022 14:35, Airline=SkyLines, tickets=250, price=880
-id=6, departureAirportCode=ATH, destinationAirportCode=FRA, departureDate=22/02/2022 14:55, Airline=SkyLines, tickets=250, price=380
-id=7, departureAirportCode=ATH, destinationAirportCode=FRA, departureDate=22/02/2022 15:35, Airline=SkyLines, tickets=250, price=350
-id=8, departureAirportCode=ATH, destinationAirportCode=MEX, departureDate=22/02/2022 16:00, Airline=SkyLines, tickets=250, price=1020
-id=9, departureAirportCode=ATH, destinationAirportCode=DUB, departureDate=22/02/2022 16:35, Airline=SkyLines, tickets=250, price=770
