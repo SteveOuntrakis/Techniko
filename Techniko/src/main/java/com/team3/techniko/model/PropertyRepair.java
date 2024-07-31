@@ -26,7 +26,7 @@ public class PropertyRepair {
     private Property property;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id", nullable = false)
+    @JoinColumn(name = "admin_id")
     private Admin admin;
 
     @Column(name = "repair_type", nullable = false)

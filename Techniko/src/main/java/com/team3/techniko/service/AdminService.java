@@ -1,59 +1,55 @@
 package com.team3.techniko.service;
 
-import com.team3.techniko.model.PropertyOwner;
+import com.team3.techniko.model.Admin;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.List;
 
-public class PropertyOwnerService {
+public class AdminService {
 
     private EntityManagerFactory entityManagerFactory;
 
-    public PropertyOwnerService() {
+    public AdminService() {
         entityManagerFactory = Persistence.createEntityManagerFactory("Technikon");
     }
 
-    public void savePropertyOwner(PropertyOwner owner) {
+    public void saveAdmin(Admin admin) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        entityManager.persist(owner);
+        entityManager.persist(admin);
         entityManager.getTransaction().commit();
         entityManager.close();
     }
 
-    public PropertyOwner getPropertyOwnerById(Long id) {
+    public Admin getAdminById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        PropertyOwner owner = entityManager.find(PropertyOwner.class, id);
+        Admin admin = entityManager.find(Admin.class, id);
         entityManager.close();
-        return owner;
+        return admin;
     }
 
-    public List<PropertyOwner> getAllPropertyOwners() {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        List<PropertyOwner> owners = entityManager.createQuery("from PropertyOwner", PropertyOwner.class).getResultList();
-        entityManager.close();
-        return owners;
+    public List<Admin> getAllAdmins() {
+       return null;
     }
 
-    public void updatePropertyOwner(PropertyOwner owner) {
+    public void updateAdmin(Admin admin) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        entityManager.merge(owner);
+        entityManager.merge(admin);
         entityManager.getTransaction().commit();
         entityManager.close();
     }
 
-    public void deletePropertyOwner(Long id) {
+    public void deleteAdmin(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        PropertyOwner owner = entityManager.find(PropertyOwner.class, id);
-        if (owner != null) {
-            entityManager.remove(owner);
+        Admin admin = entityManager.find(Admin.class, id);
+        if (admin != null) {
+            entityManager.remove(admin);
         }
         entityManager.getTransaction().commit();
         entityManager.close();
     }
 }
-

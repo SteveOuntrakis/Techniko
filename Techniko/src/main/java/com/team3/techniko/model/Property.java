@@ -33,6 +33,6 @@ public class Property {
     private Set<PropertyRepair> repairs;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id", nullable = false)
+    @JoinColumn(name = "admin_id")
     private Admin admin;
 }

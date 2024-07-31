@@ -46,6 +46,23 @@ public class PropertyOwner {
     private Set<PropertyRepair> repairs;
 
     @ManyToOne
-    @JoinColumn(name = "admin_id", nullable = false)
+    @JoinColumn(name = "admin_id")
     private Admin admin;
+
+    public PropertyOwner(String vatNumber, String name, String surname, String address, String phoneNumber, String email, String username, String password) {
+        this.vatNumber = vatNumber;
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
+
+  
+
+   
+    
+    
 }
