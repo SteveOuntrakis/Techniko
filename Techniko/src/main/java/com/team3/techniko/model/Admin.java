@@ -10,7 +10,7 @@ import lombok.Data;
 @Entity
 @Data
 public class Admin {
-
+ 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "admin_id")
