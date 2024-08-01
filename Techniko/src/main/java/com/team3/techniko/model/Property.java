@@ -1,25 +1,28 @@
 package com.team3.techniko.model;
 
-import javax.persistence.*;
-import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.Set;
 
 @Entity
-@Table(name = "properties")
 @Data
-@NoArgsConstructor
 public class Property {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "property_id")
     private Long propertyId;
 
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "year_of_construction")
     private int yearOfConstruction;
 
     @Column(name = "property_type", nullable = false)
@@ -32,7 +35,4 @@ public class Property {
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PropertyRepair> repairs;
 
-    @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private Admin admin;
 }

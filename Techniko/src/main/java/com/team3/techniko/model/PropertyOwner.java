@@ -1,11 +1,16 @@
 package com.team3.techniko.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 import java.util.Set;
 import lombok.*;
 
 @Entity
-@Table(name = "property_owners")
 @Data
 @NoArgsConstructor
 public class PropertyOwner {
@@ -42,13 +47,6 @@ public class PropertyOwner {
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Property> properties;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PropertyRepair> repairs;
-
-    @ManyToOne
-    @JoinColumn(name = "admin_id")
-    private Admin admin;
-
     public PropertyOwner(String vatNumber, String name, String surname, String address, String phoneNumber, String email, String username, String password) {
         this.vatNumber = vatNumber;
         this.name = name;
@@ -58,11 +56,5 @@ public class PropertyOwner {
         this.email = email;
         this.username = username;
         this.password = password;
-    }
-
-  
-
-   
-    
-    
+    }    
 }
