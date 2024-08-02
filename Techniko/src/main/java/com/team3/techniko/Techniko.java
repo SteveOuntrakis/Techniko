@@ -9,6 +9,7 @@ import com.team3.techniko.repositories.PropertyRepairRepository;
 import com.team3.techniko.repositories.Repository;
 import java.util.Date;
 import java.util.Optional;
+ 
 
 public class Techniko {
 
@@ -21,6 +22,7 @@ public class Techniko {
         //
         //        entityManager.close();
         //        entityManagerFactory.close();
+ 
 //        PropertyOwnerRepository ownerRepository = new PropertyOwnerRepository(entityManager);
 //        ownerRepository.save(new PropertyOwner("324123","Stefanos",
 //                      "Ountrakis","Kolimvari","69324234234","sountrakis@gmail.com","Stevoun","1234"));
@@ -87,5 +89,6 @@ public class Techniko {
 //
 //        entityManager.close();
 //        entityManagerFactory.close();
+ 
     }
 }
