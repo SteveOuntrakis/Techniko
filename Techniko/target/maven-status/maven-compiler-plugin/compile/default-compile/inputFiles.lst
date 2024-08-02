@@ -1,9 +1,9 @@
 C:\Users\admin\Documents\NetBeansProjects\Techniko\Techniko\src\main\java\com\team3\techniko\model\Admin.java
-C:\Users\admin\Documents\NetBeansProjects\Techniko\Techniko\src\main\java\com\team3\techniko\service\AdminService.java
+C:\Users\admin\Documents\NetBeansProjects\Techniko\Techniko\src\main\java\com\team3\techniko\repositories\PropertyRepairRepository.java
 C:\Users\admin\Documents\NetBeansProjects\Techniko\Techniko\src\main\java\com\team3\techniko\Techniko.java
+C:\Users\admin\Documents\NetBeansProjects\Techniko\Techniko\src\main\java\com\team3\techniko\repositories\PropertyOwnerRepository.java
 C:\Users\admin\Documents\NetBeansProjects\Techniko\Techniko\src\main\java\com\team3\techniko\model\Property.java
 C:\Users\admin\Documents\NetBeansProjects\Techniko\Techniko\src\main\java\com\team3\techniko\model\PropertyOwner.java
-C:\Users\admin\Documents\NetBeansProjects\Techniko\Techniko\src\main\java\com\team3\techniko\service\PropertyRepairService.java
+C:\Users\admin\Documents\NetBeansProjects\Techniko\Techniko\src\main\java\com\team3\techniko\repositories\Repository.java
 C:\Users\admin\Documents\NetBeansProjects\Techniko\Techniko\src\main\java\com\team3\techniko\model\enums\Status.java
 C:\Users\admin\Documents\NetBeansProjects\Techniko\Techniko\src\main\java\com\team3\techniko\model\PropertyRepair.java
-C:\Users\admin\Documents\NetBeansProjects\Techniko\Techniko\src\main\java\com\team3\techniko\service\PropertyOwnerService.java

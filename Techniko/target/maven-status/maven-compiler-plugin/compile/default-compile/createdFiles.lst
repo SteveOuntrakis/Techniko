@@ -1,9 +1,9 @@
 com\team3\techniko\model\PropertyOwner.class
-com\team3\techniko\service\PropertyOwnerService.class
 com\team3\techniko\model\enums\Status.class
-com\team3\techniko\service\PropertyRepairService.class
+com\team3\techniko\repositories\PropertyRepairRepository.class
+com\team3\techniko\repositories\PropertyOwnerRepository.class
 com\team3\techniko\model\Property.class
-com\team3\techniko\service\AdminService.class
 com\team3\techniko\Techniko.class
 com\team3\techniko\model\Admin.class
 com\team3\techniko\model\PropertyRepair.class
+com\team3\techniko\repositories\Repository.class
