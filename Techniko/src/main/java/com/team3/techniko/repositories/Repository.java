@@ -4,10 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * @param <T> the model class
- * @param <K> the key class
- */
 public interface Repository<T, K> {
 
     Optional<T> findById(K id);
@@ -18,7 +14,7 @@ public interface Repository<T, K> {
 
     boolean deleteById(K id);
 
-   List<T> findByUserId(K userId);
+    List<T> findByUserId(K userId);
 
     List<T> findByDateRange(Date startDate, Date endDate);
 }

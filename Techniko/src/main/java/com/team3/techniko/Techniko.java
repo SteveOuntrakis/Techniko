@@ -1,35 +1,27 @@
 package com.team3.techniko;
 
-import com.team3.techniko.model.Property;
 import com.team3.techniko.model.PropertyOwner;
-import com.team3.techniko.model.PropertyRepair;
-import com.team3.techniko.model.enums.Status;
 import javax.persistence.*;
-import com.team3.techniko.repositories.PropertyRepairRepository;
-import com.team3.techniko.repositories.Repository;
-import java.util.Date;
-import java.util.Optional;
- 
+import com.team3.techniko.repositories.RepositoryImpl;
 
 public class Techniko {
 
     public static void main(String[] args) {
-                EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Technikon");
-                EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Technikon");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
         //
         //        entityManager.getTransaction().begin();
         //        entityManager.getTransaction().commit();
         //
         //        entityManager.close();
         //        entityManagerFactory.close();
- 
-//        PropertyOwnerRepository ownerRepository = new PropertyOwnerRepository(entityManager);
-//        ownerRepository.save(new PropertyOwner("324123","Stefanos",
-//                      "Ountrakis","Kolimvari","69324234234","sountrakis@gmail.com","Stevoun","1234"));
-//        System.out.println(ownerRepository.findAll());
 
+        RepositoryImpl repo = new RepositoryImpl(entityManager, PropertyOwner.class);
+        repo.save(new PropertyOwner("324123", "Stefanos",
+                "Ountrakis", "Kolimvari", "69324234234", "sountrakis@gmail.com", "Stevoun", "1234"));
+        System.out.println(repo.findAll());
 
-         //Repair Testing
+        //Repair Testing
 //        Repository<PropertyRepair, Long> propertyRepairRepository = new PropertyRepairRepository(entityManager);
 //        PropertyOwner owner = new PropertyOwner();
 //        owner.setName("John");
@@ -89,6 +81,5 @@ public class Techniko {
 //
 //        entityManager.close();
 //        entityManagerFactory.close();
- 
     }
 }
