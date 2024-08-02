@@ -1,6 +1,7 @@
 package com.team3.techniko.repositories;
 
 import com.team3.techniko.model.PropertyOwner;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import javax.persistence.EntityManager;
@@ -69,6 +70,21 @@ public class PropertyOwnerRepository implements Repository<PropertyOwner, Long>{
 
     private String getEntityClassName() {
         return PropertyOwner.class.getName();
+        
     }
     
+     @Override
+    public List<PropertyOwner> findByUserId(Long userId) {
+        TypedQuery<PropertyOwner> query = entityManager.createQuery("from " + getEntityClassName() + " where ownerId = :ownerId", getEntityClass());
+        query.setParameter("ownerId", userId);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<PropertyOwner> findByDateRange(Date startDate, Date endDate) {
+        TypedQuery<PropertyOwner> query = entityManager.createQuery("from " + getEntityClassName() + " where date >= :startDate and date <= :endDate", getEntityClass());
+        query.setParameter("startDate", startDate);
+        query.setParameter("endDate", endDate);
+        return query.getResultList();
+    }
 }

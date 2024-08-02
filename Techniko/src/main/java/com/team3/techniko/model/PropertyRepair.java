@@ -50,4 +50,7 @@ public class PropertyRepair {
     @JoinColumn(name = "property_id", nullable = false)
     private Property property;
 
+    @ManyToOne
+    @JoinColumn(name = "owner_id", nullable = false)
+    private PropertyOwner owner;
 }
