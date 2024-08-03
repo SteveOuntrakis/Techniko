@@ -3,7 +3,8 @@ package com.team3.techniko;
 import com.team3.techniko.model.PropertyOwner;
 import javax.persistence.*;
 import com.team3.techniko.repositories.RepositoryImpl;
-
+import com.team3.techniko.services.PropertyOwnerServiceImpl;
+ 
 public class Techniko {
 
     public static void main(String[] args) {
@@ -20,6 +21,13 @@ public class Techniko {
         repo.save(new PropertyOwner("324123", "Stefanos",
                 "Ountrakis", "Kolimvari", "69324234234", "sountrakis@gmail.com", "Stevoun", "1234"));
         System.out.println(repo.findAll());
+        
+        
+        PropertyOwnerServiceImpl propertyOwnerServiceImpl = new PropertyOwnerServiceImpl(); 
+        
+        System.out.println(propertyOwnerServiceImpl.findAll()); 
+        
+        
 
         //Repair Testing
 //        Repository<PropertyRepair, Long> propertyRepairRepository = new PropertyRepairRepository(entityManager);
@@ -81,5 +89,17 @@ public class Techniko {
 //
 //        entityManager.close();
 //        entityManagerFactory.close();
+    
+    
+      
+//        repo.save(new PropertyOwner("324123", "Stefanos",
+//                "Ountrakis", "Kolimvari", "69324234234", "sountrakis@gmail.com", "Stevoun", "1234"));
+//        
+//        RepositoryImpl repo2 = new RepositoryImpl(entityManager, Admin.class);
+//        repo.save(new Admin("Stephen","stef6754@gmail.com","1234"));
+//        System.out.println(repo.findAll());
+
+     
+    
     }
 }
