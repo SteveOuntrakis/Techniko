@@ -82,4 +82,14 @@ public class RepositoryImpl<T> implements Repository<T, Long> {
         query.setParameter("endDate", endDate);
         return query.getResultList();
     }
+
+    @Override
+    public List<T> findAllByUsername(String username) {
+        TypedQuery<T> query
+                = entityManager.createQuery("from " + entityClass.getName()
+                        + " where username  like :username ",
+                         entityClass)
+                        .setParameter("username", username);
+        return query.getResultList();
+    }
 }

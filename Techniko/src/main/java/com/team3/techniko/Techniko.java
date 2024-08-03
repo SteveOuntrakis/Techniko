@@ -1,25 +1,33 @@
 package com.team3.techniko;
 
+import com.team3.techniko.model.Admin;
 import com.team3.techniko.model.PropertyOwner;
 import javax.persistence.*;
 import com.team3.techniko.repositories.RepositoryImpl;
+import com.team3.techniko.ui.WelcomeScreen;
 
 public class Techniko {
 
-    public static void main(String[] args) {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Technikon");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        //
-        //        entityManager.getTransaction().begin();
-        //        entityManager.getTransaction().commit();
-        //
-        //        entityManager.close();
-        //        entityManagerFactory.close();
+    public static void main(String[] args) throws Exception {
+//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Technikon");
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        
+//                entityManager.getTransaction().begin();
+//                entityManager.getTransaction().commit();
+//        
+//                entityManager.close();
+//                entityManagerFactory.close();
 
-        RepositoryImpl repo = new RepositoryImpl(entityManager, PropertyOwner.class);
-        repo.save(new PropertyOwner("324123", "Stefanos",
-                "Ountrakis", "Kolimvari", "69324234234", "sountrakis@gmail.com", "Stevoun", "1234"));
-        System.out.println(repo.findAll());
+//        
+//        RepositoryImpl repo = new RepositoryImpl(entityManager, PropertyOwner.class);
+//        repo.save(new PropertyOwner("324123", "Stefanos",
+//                "Ountrakis", "Kolimvari", "69324234234", "sountrakis@gmail.com", "Stevoun", "1234"));
+//        
+//        RepositoryImpl repo2 = new RepositoryImpl(entityManager, Admin.class);
+//        repo.save(new Admin("Stephen","stef6754@gmail.com","1234"));
+//        System.out.println(repo.findAll());
+
+        new WelcomeScreen().login();
 
         //Repair Testing
 //        Repository<PropertyRepair, Long> propertyRepairRepository = new PropertyRepairRepository(entityManager);

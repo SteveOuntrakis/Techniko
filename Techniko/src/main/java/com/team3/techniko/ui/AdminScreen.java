@@ -14,7 +14,7 @@ public class AdminScreen {
     public void homeScreen(){
         int input = -1;
         while (input != 0 & input != 1 & input != 2) {
-            System.out.println(Finals.DELIMITER + "Please choose:\n1.Show Pending repairs\n2.Show all scheduled repairs\n0. Exit");
+            System.out.println(Finals.DELIMITER + "Please choose:\n1.Show Pending repairs\n2.Show all scheduled repairs\n0.Exit");
             while (!scanner.hasNextInt()) {
                 System.out.println("Please insert a number...");
                 scanner.next();
