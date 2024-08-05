@@ -7,6 +7,7 @@ import com.team3.techniko.model.PropertyRepair;
 import com.team3.techniko.model.enums.Status;
 import javax.persistence.*;
 import com.team3.techniko.repositories.RepositoryImpl;
+import com.team3.techniko.ui.WelcomeScreen;
 import java.util.Date;
 
 public class Techniko {
@@ -21,23 +22,31 @@ public class Techniko {
 //                entityManager.close();
 //                entityManagerFactory.close();
 
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Technikon");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-
-        RepositoryImpl repo = new RepositoryImpl(entityManager, PropertyOwner.class);
-        repo.save(new PropertyOwner("324123", "Stefanos",
-                "Ountrakis", "Kolimvari", "69324234234", "sountrakis@gmail.com", "Stevoun", "1234"));
-
-        RepositoryImpl repo2 = new RepositoryImpl(entityManager, Admin.class);
-        repo2.save(new Admin("Stephen", "stef6754@gmail.com", "1234"));
-        System.out.println(repo.findAll());
-        RepositoryImpl repo4 = new RepositoryImpl(entityManager, Property.class);
-        repo4.save(new Property());
-        RepositoryImpl repo3 = new RepositoryImpl(entityManager, Property.class);
-        repo3.save(new PropertyRepair("dffw", "fwf", new Date(), Status.PENDING, new Property(), new PropertyOwner()));
-        entityManager.close();
-        entityManagerFactory.close();
-//        new WelcomeScreen().login();
+//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Technikon");
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//
+//        RepositoryImpl repo = new RepositoryImpl(entityManager, PropertyOwner.class);
+//        PropertyOwner propertyOwner = new PropertyOwner("324123", "Stefanos",
+//                "Ountrakis", "Kolimvari", "69324234234", "sountrakis@gmail.com", "Stevoun", "1234");
+//        repo.save(propertyOwner);
+//
+//        RepositoryImpl repo2 = new RepositoryImpl(entityManager, Admin.class);
+//        Admin admin = new Admin("Stephen", "stef6754@gmail.com", "1234");
+//        repo2.save(admin);
+//        
+//        RepositoryImpl repo4 = new RepositoryImpl(entityManager, Property.class);
+//        Property property = new Property("Chania","Hotel",propertyOwner);
+//        repo4.save(property);
+//        
+//        RepositoryImpl repo3 = new RepositoryImpl(entityManager, Property.class);
+//        repo3.save(new PropertyRepair("dffw", "fwf", new Date(), Status.PENDING, property, propertyOwner));
+//        entityManager.close();
+//        entityManagerFactory.close();
+       
+        
+        
+        
+    new WelcomeScreen().login();
         //Repair Testing
 //        Repository<PropertyRepair, Long> propertyRepairRepository = new PropertyRepairRepository(entityManager);
 //        PropertyOwner owner = new PropertyOwner();
