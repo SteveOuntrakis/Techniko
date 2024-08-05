@@ -65,4 +65,10 @@ public class PropertyRepair {
         this.property = property;
         this.owner = owner;
     }
+
+    @Override
+    public String toString() {
+        return "repairId=" + repairId + ", repairType=" + repairType + ", shortDescription=" + shortDescription + ", dateSubmitted=" + dateSubmitted + ", description=" + description;
+    }
+    
 }
