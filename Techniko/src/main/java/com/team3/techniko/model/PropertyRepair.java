@@ -11,9 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class PropertyRepair {
 
     @Id
@@ -40,12 +42,13 @@ public class PropertyRepair {
 
     private Boolean ownerAcceptance;
 
+    @Column(nullable = false)
     private Status repairStatus;
 
     private Date actualStartDate;
 
     private Date actualEndDate;
-    
+
     @ManyToOne
     @JoinColumn(name = "property_id", nullable = false)
     private Property property;
@@ -53,4 +56,13 @@ public class PropertyRepair {
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
     private PropertyOwner owner;
+
+    public PropertyRepair(String repairType, String shortDescription, Date dateSubmitted, Status repairStatus, Property property, PropertyOwner owner) {
+        this.repairType = repairType;
+        this.shortDescription = shortDescription;
+        this.dateSubmitted = dateSubmitted;
+        this.repairStatus = repairStatus;
+        this.property = property;
+        this.owner = owner;
+    }
 }

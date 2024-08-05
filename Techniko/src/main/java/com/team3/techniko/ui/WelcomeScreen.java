@@ -27,7 +27,7 @@ public class WelcomeScreen {
         while (login != 0 & login != 1 & login != 2) {
             System.out.println(Finals.DELIMITER + "\nPlease choose:\n1.Sign in\n2.Sign up\n0.Exit");
             while (!scanner.hasNextInt()) {
-                System.out.println(Finals.DELIMITER+"\nPlease insert a number...");
+                System.out.println(Finals.DELIMITER + "\nPlease insert a number...");
                 scanner.next();
             }
             login = scanner.nextInt();
@@ -57,22 +57,21 @@ public class WelcomeScreen {
             }
             if (propertyOwner == null) {
                 Admin admin = findAdminByUsername(username);
-                System.out.println(Finals.DELIMITER+"\nPlease insert your password:");
+                System.out.println(Finals.DELIMITER + "\nPlease insert your password:");
                 String password = scanner.next();
                 if (admin == null) {
-                    System.out.println(Finals.DELIMITER+"\nInvalid Password or username, please try again");
+                    System.out.println(Finals.DELIMITER + "\nInvalid Password or username, please try again");
                     validation = true;
-                } else {                    
+                } else {
                     validation = validateAdminsPassword(password, admin);
                 }
 
-            } 
-             else {
-                System.out.println(Finals.DELIMITER+"\nPlease insert your password:");
+            } else {
+                System.out.println(Finals.DELIMITER + "\nPlease insert your password:");
                 String password = scanner.next();
                 validation = validatePropertyOwnerPassword(password, propertyOwner);
             }
-            
+
         }
 
         //TODO : find PropertyOwner or admin by username -> Id. New query on Repo?
@@ -109,7 +108,7 @@ public class WelcomeScreen {
         RepositoryImpl<PropertyOwner> propertyOwner = new RepositoryImpl(entityManager, PropertyOwner.class);
 
         if (username == null) {
-            System.out.println("Null product name was given");
+            //TODO : log System.out.println("Null Username name was given");
         }
         if (!username.chars().allMatch(Character::isLetter)) {
             throw new Exception();
@@ -129,7 +128,7 @@ public class WelcomeScreen {
 
         List<Admin> admins = admin.findAllByUsername(username);
 
-        if (admins.isEmpty()) {            
+        if (admins.isEmpty()) {
             return null;
         }
         return admins.getFirst();
@@ -137,11 +136,11 @@ public class WelcomeScreen {
 
     public boolean validateAdminsPassword(String password, Admin admin) {
         if (password.equals(admin.getPassword())) {
-            System.out.println(Finals.DELIMITER+"\nWelcome in Admin");
+            System.out.println(Finals.DELIMITER + "\nWelcome in Admin");
             new AdminScreen().homeScreen();
             return false;
         } else {
-            System.out.println(Finals.DELIMITER+"\nInvalid Password or username, please try again");
+            System.out.println(Finals.DELIMITER + "\nInvalid Password or username, please try again");
             return true;
         }
 
@@ -149,11 +148,11 @@ public class WelcomeScreen {
 
     public boolean validatePropertyOwnerPassword(String password, PropertyOwner owner) {
         if (password.equals(owner.getPassword())) {
-            System.out.println(Finals.DELIMITER+"\nWelcome in Owner");
+            System.out.println(Finals.DELIMITER + "\nWelcome in Owner");
             new PropertyOwnerScreen().homeScreen();
             return false;
         } else {
-            System.out.println(Finals.DELIMITER+"\nInvalid Password or username, please try again");
+            System.out.println(Finals.DELIMITER + "\nInvalid Password or username, please try again");
             return true;
         }
     }

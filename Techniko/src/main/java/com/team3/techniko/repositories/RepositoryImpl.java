@@ -1,5 +1,6 @@
 package com.team3.techniko.repositories;
 
+import com.team3.techniko.model.enums.Status;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -88,8 +89,17 @@ public class RepositoryImpl<T> implements Repository<T, Long> {
         TypedQuery<T> query
                 = entityManager.createQuery("from " + entityClass.getName()
                         + " where username  like :username ",
-                         entityClass)
+                        entityClass)
                         .setParameter("username", username);
+        return query.getResultList();
+    }
+
+    public List<T> findPendingRepairs(Status status) {
+        TypedQuery<T> query
+                = entityManager.createQuery("from " + entityClass.getName()
+                        + " where repairStatus  like :status ",
+                        entityClass)
+                        .setParameter("status", status);
         return query.getResultList();
     }
 }
