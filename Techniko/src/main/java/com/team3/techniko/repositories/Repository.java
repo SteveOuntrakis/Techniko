@@ -17,4 +17,6 @@ public interface Repository<T, K> {
     List<T> findByUserId(K userId);
 
     List<T> findByDateRange(Date startDate, Date endDate);
+
+    List<T> findAllByUsername(String username);
 }
