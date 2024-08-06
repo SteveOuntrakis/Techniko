@@ -1,5 +1,7 @@
 package com.team3.techniko.ui;
 
+import com.team3.techniko.Utils.Finals;
+import com.team3.techniko.exceptions.UserNotFoundException;
 import com.team3.techniko.utils.Finals;
 import com.team3.techniko.model.Admin;
 import com.team3.techniko.model.PropertyOwner;
@@ -135,7 +137,8 @@ public class WelcomeScreen {
             return owners.getFirst();
 
         } catch (Exception e) {
-            return null;
+            throw new UserNotFoundException("An error occurred wile fetching theproperty owner:  " + e.getMessage() );
+           // return null;
         }
 
     }

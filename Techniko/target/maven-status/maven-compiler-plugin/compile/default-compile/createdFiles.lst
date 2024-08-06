@@ -1,3 +1,4 @@
+com\team3\techniko\services\ServicePropertyOwnerImpl.class
 com\team3\techniko\ui\PropertyOwnerScreen.class
 com\team3\techniko\model\Property.class
 com\team3\techniko\repositories\RepositoryImpl.class
@@ -12,5 +13,6 @@ com\team3\techniko\ui\WelcomeScreen.class
 com\team3\techniko\Utils\Finals.class
 com\team3\techniko\model\enums\PropertyType.class
 com\team3\techniko\services\Service.class
+com\team3\techniko\services\ServiceAdminImpl.class
 com\team3\techniko\model\PropertyRepair.class
 com\team3\techniko\repositories\Repository.class

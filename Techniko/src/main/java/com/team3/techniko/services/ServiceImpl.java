@@ -26,7 +26,7 @@ public class ServiceImpl<T> implements Service<T,Long> {
 
             }
         }
-        throw new NoSuchElementException("Den vrethike  Property owner me id: " + id);
+        throw new PropertyOwnerNotFoundException("Den vrethike  Property owner me id: " + id);
 
     }
 
@@ -54,6 +54,6 @@ public class ServiceImpl<T> implements Service<T,Long> {
                 break;
             }
         }
-        throw new NoSuchElementException("Den vrethike department me id: " + id);
+        throw new DepartmentNotFoundException("Not found department with id: " + id);
     }
 }
