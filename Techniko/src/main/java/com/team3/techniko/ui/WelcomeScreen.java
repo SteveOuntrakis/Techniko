@@ -7,6 +7,7 @@ import com.team3.techniko.model.PropertyRepair;
 import com.team3.techniko.repositories.RepositoryImpl;
 import com.team3.techniko.services.AdminService;
 import com.team3.techniko.services.PropertyUserService;
+import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
@@ -87,8 +88,7 @@ public class WelcomeScreen {
                 String password = scanner.next();
                 validation = !propertyUserService.validatePropertyOwnerPassword(password, propertyOwner.get());
                 if (!validation) {
-                    System.out.println(Finals.DELIMITER + "\nWelcome in Owner");
-                    new PropertyOwnerScreen().homeScreen();
+                    new PropertyOwnerScreen().homeScreen(propertyOwner.get());
                 }
             }
         }
