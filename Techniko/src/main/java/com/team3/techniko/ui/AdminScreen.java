@@ -1,6 +1,6 @@
 package com.team3.techniko.ui;
 
-import com.team3.techniko.Utils.Finals;
+import com.team3.techniko.utils.Finals;
 import com.team3.techniko.model.PropertyRepair;
 import com.team3.techniko.model.enums.Status;
 import com.team3.techniko.repositories.RepositoryImpl;
@@ -12,6 +12,7 @@ import java.util.Scanner;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
 
 public class AdminScreen {
 
@@ -103,7 +104,7 @@ public class AdminScreen {
         }
     }
 
-    //Case 3: Show All completed Reapirs.
+    //Case 3: Show All completed Repairs.
     public void showAllCompletedRepairs() {
         RepositoryImpl<PropertyRepair> propertyRepair = new RepositoryImpl(entityManager, PropertyRepair.class);
         List<PropertyRepair> pendingRepairs = propertyRepair.findPendingRepairs(Status.COMPLETED);
@@ -128,7 +129,7 @@ public class AdminScreen {
         Double cost = -1.0;
         while (cost <= 0) {
             while (!scanner.hasNextDouble()) {
-                System.out.println("Please insert a double...");
+                System.out.println("Please insert a number...");
                 scanner.next();
             }
             cost = scanner.nextDouble();

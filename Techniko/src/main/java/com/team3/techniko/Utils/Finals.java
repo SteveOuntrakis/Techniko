@@ -1,4 +1,4 @@
-package com.team3.techniko.Utils;
+package com.team3.techniko.utils;
 
 public class Finals {
   public static final String DELIMITER = "------------------------------------------------------------------------------------------------------";
