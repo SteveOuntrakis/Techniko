@@ -1,5 +1,6 @@
 package com.team3.techniko.repositories;
 
+import com.team3.techniko.model.enums.Status;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +20,6 @@ public interface Repository<T, K> {
     List<T> findByDateRange(Date startDate, Date endDate);
 
     List<T> findAllByUsername(String username);
+    
+    List<T> findPendingRepairs(Status status);
 }

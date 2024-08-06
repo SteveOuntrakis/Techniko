@@ -1,6 +1,5 @@
 package com.team3.techniko.ui;
 
-import com.team3.techniko.Utils.Finals;
 import com.team3.techniko.model.Property;
 import com.team3.techniko.model.PropertyOwner;
 import com.team3.techniko.model.PropertyRepair;
@@ -8,6 +7,7 @@ import com.team3.techniko.model.enums.PropertyType;
 import com.team3.techniko.model.enums.RepairType;
 import com.team3.techniko.model.enums.Status;
 import com.team3.techniko.repositories.RepositoryImpl;
+import com.team3.techniko.utils.Finals;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -16,7 +16,8 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * The PropertyOwnerScreen class provides a user interface for property owners to manage their properties and repairs.
+ * The PropertyOwnerScreen class provides a user interface for property owners
+ * to manage their properties and repairs.
  */
 public class PropertyOwnerScreen {
 
@@ -25,8 +26,8 @@ public class PropertyOwnerScreen {
     private final EntityManager entityManager;
 
     /**
-     * Constructor for PropertyOwnerScreen.
-     * Initializes the scanner, entityManagerFactory, and entityManager.
+     * Constructor for PropertyOwnerScreen. Initializes the scanner,
+     * entityManagerFactory, and entityManager.
      */
     public PropertyOwnerScreen() {
         this.scanner = new Scanner(System.in);
@@ -36,7 +37,7 @@ public class PropertyOwnerScreen {
 
     /**
      * Displays the home screen for the property owner.
-     * 
+     *
      * @param owner The property owner.
      */
     public void homeScreen(PropertyOwner owner) {
@@ -65,12 +66,12 @@ public class PropertyOwnerScreen {
 
     /**
      * Displays the properties owned by the property owner.
-     * 
+     *
      * @param owner The property owner.
      */
     private void showProperties(PropertyOwner owner) {
         RepositoryImpl<Property> propertyRepository = new RepositoryImpl<>(entityManager, Property.class);
-        List<Property> properties = propertyRepository.findAll();
+        List<Property> properties = propertyRepository.findPropertiesByUserID(owner.getOwnerId());
         if (properties.isEmpty()) {
             System.out.println("No properties found.");
         } else {
@@ -94,10 +95,10 @@ public class PropertyOwnerScreen {
                     addNewProperty(owner);
                     break;
                 case 2:
-                    viewPropertyDetails();
+                    viewPropertyDetails(owner);
                     break;
                 case 0:
-                    return;
+                    System.exit(0);
                 default:
                     break;
             }
@@ -106,7 +107,7 @@ public class PropertyOwnerScreen {
 
     /**
      * Adds a new property for the property owner.
-     * 
+     *
      * @param owner The property owner.
      */
     private void addNewProperty(PropertyOwner owner) {
@@ -133,35 +134,40 @@ public class PropertyOwnerScreen {
     /**
      * Displays the details of a property.
      */
-    private void viewPropertyDetails() {
+    private void viewPropertyDetails(PropertyOwner owner) {
         RepositoryImpl<Property> propertyRepository = new RepositoryImpl<>(entityManager, Property.class);
-        List<Property> properties = propertyRepository.findAll();
+        List<Property> properties = propertyRepository.findPropertiesByUserID(owner.getOwnerId());
         if (properties.isEmpty()) {
             System.out.println("No properties found.");
             return;
         } else {
             properties.forEach(property -> System.out.println("Property ID: " + property.getPropertyId() + ", Address: " + property.getAddress()));
         }
+        int input = -1;
+        while (input <= 0 || input > properties.size()) {
+            System.out.println("Enter property ID to view details or 0 to Exit:");
+            while (!scanner.hasNextInt()) {
+                System.out.println("Please insert a number...");
+                scanner.next();
+            }
+            input = scanner.nextInt();
 
-        System.out.println("Enter property ID to view details:");
-        long propertyId = scanner.nextLong();
-        Property property = entityManager.find(Property.class, propertyId);
-        if (property != null) {
-            System.out.println(property.toString());
-            showRepairsForProperty(propertyId);
-        } else {
-            System.out.println("Property not found.");
+            if (input == 0) {
+                System.exit(0);
+            }
         }
+        showRepairsForProperty(properties.get(input - 1));
     }
 
     /**
-     * Displays the repairs for a property and provides options to request a new repair, accept/refuse a repair, or update property details.
-     * 
+     * Displays the repairs for a property and provides options to request a new
+     * repair, accept/refuse a repair, or update property details.
+     *
      * @param propertyId The ID of the property.
      */
-    private void showRepairsForProperty(long propertyId) {
+    private void showRepairsForProperty(Property chosenProperty) {
         RepositoryImpl<PropertyRepair> repairRepository = new RepositoryImpl<>(entityManager, PropertyRepair.class);
-        List<PropertyRepair> repairs = repairRepository.findAllByPropertyId(propertyId);
+        List<PropertyRepair> repairs = repairRepository.findAllByPropertyId(chosenProperty.getPropertyId());
         if (repairs.isEmpty()) {
             System.out.println("No repairs found for this property.");
         } else {
@@ -169,8 +175,8 @@ public class PropertyOwnerScreen {
         }
 
         int input = -1;
-        while (input != 0) {
-            System.out.println(Finals.DELIMITER + "Please choose:"
+        while (input != 0 & input != 1 & input != 2 & input != 3) {
+            System.out.println(Finals.DELIMITER + "\nPlease choose:"
                     + "\n1. Request a New Repair"
                     + "\n2. Accept/Refuse Repair"
                     + "\n3. Update Property Details"
@@ -180,32 +186,32 @@ public class PropertyOwnerScreen {
                 scanner.next();
             }
             input = scanner.nextInt();
+        }
 
-            switch (input) {
-                case 1:
-                    requestNewRepair(propertyId);
-                    break;
-                case 2:
-                    acceptOrRefuseRepair(propertyId);
-                    break;
-                case 3:
-                    updatePropertyDetails(propertyId);
-                    break;
-                case 0:
-                    return;
-                default:
-                    break;
-            }
+        switch (input) {
+            case 1:
+                requestNewRepair(chosenProperty.getPropertyId());
+                break;
+            case 2:
+                acceptOrRefuseRepair(chosenProperty.getPropertyId());
+                break;
+            case 3:
+                updatePropertyDetails(chosenProperty.getPropertyId());
+                break;
+            case 0:
+                System.exit(input);
+            default:
+                break;
         }
     }
 
     /**
      * Requests a new repair for a property.
-     * 
+     *
      * @param propertyId The ID of the property.
      */
     private void requestNewRepair(long propertyId) {
-        System.out.println("Choose type of repair: \n1. PAINTING \n2. INSULATION \n3. FRAMES \n4. PLUMBING \n5. ELECTRICAL_WORK");
+        System.out.println(Finals.DELIMITER + "\nChoose type of repair: \n1. PAINTING \n2. INSULATION \n3. FRAMES \n4. PLUMBING \n5. ELECTRICAL_WORK");
         int repairTypeInput = scanner.nextInt();
         RepairType repairType = RepairType.values()[repairTypeInput - 1];
         System.out.println("Enter short description of the repair:");
@@ -227,32 +233,56 @@ public class PropertyOwnerScreen {
 
     /**
      * Allows the property owner to accept or refuse a repair.
-     * 
+     *
      * @param propertyId The ID of the property.
      */
     private void acceptOrRefuseRepair(long propertyId) {
         RepositoryImpl<PropertyRepair> repairRepository = new RepositoryImpl<>(entityManager, PropertyRepair.class);
-        List<PropertyRepair> repairs = repairRepository.findAllByPropertyId(propertyId);
+        List<PropertyRepair> repairs = repairRepository.findPendingRepairsForID(Status.PENDING, propertyId);
         if (repairs.isEmpty()) {
-            System.out.println("No repairs found for this property.");
-            return;
+            int input = -1;
+            while (input != 0) {
+                System.out.println(Finals.DELIMITER + "\nNo repairs found for this property."
+                        + "\ntype 1 for going back or 0 for exit:");
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Please insert a number...");
+                    scanner.next();
+                }
+                input = scanner.nextInt();
+
+            }
+            if (input == 0) {
+                System.exit(input);
+            } else {
+                return;
+            }
         } else {
+
+            System.out.println(Finals.DELIMITER);
             repairs.forEach(repair -> {
-                System.out.println("Repair ID: " + repair.getRepairId() + ", Description: " + repair.getDescription() + ", Status: " + repair.getStatus());
+
+                System.out.println("Repair ID: " + repair.getRepairId()
+                        + ", Description: " + repair.getDescription()
+                        + ", Cost: " + repair.getProposedCost()
+                        + ", Status: " + repair.getStatus()
+                        + ", Date start :" + repair.getProposedStartDate()
+                        + ", Date end :" + repair.getProposedEndDate());
             });
         }
 
-        System.out.println("Enter Repair ID to accept/refuse:");
+        System.out.println(Finals.DELIMITER + "\nEnter Repair ID to accept/refuse:");
         long repairId = scanner.nextLong();
         PropertyRepair repair = entityManager.find(PropertyRepair.class, repairId);
         if (repair != null) {
-            System.out.println("Do you accept this repair? (yes/no):");
+            System.out.println(Finals.DELIMITER + "\nDo you accept this repair? (yes/no):");
             String decision = scanner.next();
             if ("yes".equalsIgnoreCase(decision)) {
                 repair.setOwnerAcceptance(true);
+                repair.setStatus(Status.IN_PROGRESS);
                 System.out.println("Repair accepted.");
             } else {
                 repair.setOwnerAcceptance(false);
+                repair.setStatus(Status.CANCELLED);
                 System.out.println("Repair refused.");
             }
             entityManager.getTransaction().begin();
@@ -265,7 +295,7 @@ public class PropertyOwnerScreen {
 
     /**
      * Updates the details of a property.
-     * 
+     *
      * @param propertyId The ID of the property.
      */
     private void updatePropertyDetails(long propertyId) {

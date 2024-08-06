@@ -105,16 +105,36 @@ public class RepositoryImpl<T> implements Repository<T, Long> {
     public List<T> findPendingRepairs(Status status) {
         TypedQuery<T> query
                 = entityManager.createQuery("from " + entityClass.getName()
-                        + " where repairStatus  like :status ",
+                        + " where Status like :status ",
                         entityClass)
                         .setParameter("status", status);
         return query.getResultList();
     }
-
-    public List<PropertyRepair> findAllByPropertyId(long propertyId) {
-        return entityManager.createQuery("SELECT r FROM PropertyRepair r WHERE r.property.id = :propertyId", PropertyRepair.class)
-                .setParameter("propertyId", propertyId)
-                .getResultList();
+    public List<T> findPendingRepairsForID(Status status,Long id) {
+        TypedQuery<T> query
+                = entityManager.createQuery("from " + entityClass.getName()
+                        + " where Status like :status and property_id like :property_id ",
+                        entityClass)
+                        .setParameter("status", status)
+                        .setParameter("property_id", id);       
+        return query.getResultList();
     }
-            
+
+    public List<T> findPropertiesByUserID(Long userId) {
+        TypedQuery<T> query
+                = entityManager.createQuery("from " + entityClass.getName()
+                        + " where owner_id like :user_id ",
+                        entityClass)
+                        .setParameter("user_id", userId);
+        return query.getResultList();
+    }
+
+    public List<T> findAllByPropertyId(Long propertyId) {
+        TypedQuery<T> query = entityManager.createQuery("from " + entityClass.getName()
+                + " where property_id like :propertyId",
+                entityClass)
+                .setParameter("propertyId", propertyId);
+
+        return query.getResultList();
+    }
 }

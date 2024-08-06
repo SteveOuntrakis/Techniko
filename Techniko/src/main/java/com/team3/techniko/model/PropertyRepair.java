@@ -58,11 +58,11 @@ public class PropertyRepair {
     @JoinColumn(name = "owner_id", nullable = false)
     private PropertyOwner owner;
 
-    public PropertyRepair(RepairType repairType, String shortDescription, Date dateSubmitted, Status repairStatus, Property property, PropertyOwner owner) {
+    public PropertyRepair(RepairType repairType, String shortDescription, Date dateSubmitted, Status Status, Property property, PropertyOwner owner) {
         this.repairType = repairType;
         this.shortDescription = shortDescription;
         this.dateSubmitted = dateSubmitted;
-        this.Status = repairStatus;
+        this.Status = Status;
         this.property = property;
         this.owner = owner;
     }

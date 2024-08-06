@@ -1,39 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.team3.techniko.services;
 
-import com.team3.techniko.exceptions.DepartmentNotFoundException;
-import com.team3.techniko.exceptions.DublicatePropertyOwnerException;
-import com.team3.techniko.exceptions.EmptyPropertyOwnerException;
-import com.team3.techniko.exceptions.InvalidEmailException;
-import com.team3.techniko.exceptions.InvalidPasswordException;
-import com.team3.techniko.exceptions.InvalidUserNameException;
-import com.team3.techniko.exceptions.PropertyOwnerNotFoundException;
-import com.team3.techniko.exceptions.UserNotFoundException;
-import com.team3.techniko.model.PropertyOwner;
 import com.team3.techniko.repositories.Repository;
-import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
- 
-public class ServiceImpl<T> implements Service {
+public class ServiceImpl<T> implements Service<T,Long> {
 
-    private Repository repository;
+    protected final Repository<T, Long> repository;
     // with this command he stopped reddening the log
-    private static final Logger log = LoggerFactory.getLogger(ServiceImpl.class); 
+    private static final Logger log = LoggerFactory.getLogger(ServiceImpl.class);
 
-    public ServiceImpl(Repository repository) {
+    public ServiceImpl(Repository<T, Long> repository) {
         this.repository = repository;
     }
 
     @Override
-    public Optional getById(Object id) {
+    public Optional<T> getById(Long id) {
 
         for (int i = 0; i < repository.findAll().size(); i++) {
             if (repository.findAll().get(i).equals(id)) {
@@ -46,7 +31,7 @@ public class ServiceImpl<T> implements Service {
     }
 
     @Override
-    public List getAll() {
+    public List<T> getAll() {
 
         // Validate : if List<PropertyOwner> is empty return one empty list
         if (repository.findAll().isEmpty()) {
@@ -56,55 +41,12 @@ public class ServiceImpl<T> implements Service {
     }
 
     @Override
-    public Optional save(Object t) {
-
-        PropertyOwner propertyOwner = new PropertyOwner();
-
-        if (propertyOwner.getVatNumber() == null || propertyOwner.getVatNumber().isEmpty()
-                || propertyOwner.getName() == null || propertyOwner.getName().isEmpty()
-                || propertyOwner.getSurname() == null || propertyOwner.getSurname().isEmpty()
-                || propertyOwner.getAddress() == null || propertyOwner.getAddress().isEmpty()
-                || propertyOwner.getPhoneNumber() == null || propertyOwner.getPhoneNumber().isEmpty()
-                || propertyOwner.getEmail() == null || propertyOwner.getEmail().isEmpty()
-                || propertyOwner.getUsername() == null || propertyOwner.getUsername().isEmpty()
-                || propertyOwner.getPassword() == null || propertyOwner.getPassword().isEmpty()) {
-           
-            throw new EmptyPropertyOwnerException("The optional is empty, please add it");
-        }
-          
-         
-        
-
-        // validate for if the property owner already exist
-        if (propertyOwner.getOwnerId() != null &&   repository.findById(propertyOwner.getOwnerId()).isPresent() ) {
-            return Optional.empty();
-        }
-             
-        // validate or if the VAT number is unique
-        if (!propertyOwner.getVatNumber().isEmpty()) {
-             throw new DublicatePropertyOwnerException("An owner was found with this VAT number");                      //return Optional.empty();
-        }
-
-        if (!propertyOwner.getEmail().isBlank()) {
-            log.warn("Your email is empty please add your email");
-            throw new InvalidEmailException("Your email is empty please add your email");   // return Optional.empty();
-        }
-
-        // validate or if the user name is unique
-        if (!propertyOwner.getUsername().isBlank()) {
-            log.warn("You username is incorrect, please add the real username");
-           throw new InvalidUserNameException("Your username is incorrect, please add the real username");
-        }
-        if (!propertyOwner.getPassword().isBlank()) {
-           log.warn("You password is incorrect, please add the real password");
-           throw new InvalidPasswordException("Your password is incorrect, please add the real password");
-        }
-
-        return repository.save(propertyOwner);
+    public Optional save(T t) {
+        return repository.save(t);
     }
 
     @Override
-    public boolean deleteById(Object id) {
+    public boolean deleteById(Long id) {
 
         for (int i = 0; i < repository.findAll().size(); i++) {
             if (repository.findAll().get(i).equals(id)) {
@@ -114,32 +56,4 @@ public class ServiceImpl<T> implements Service {
         }
         throw new DepartmentNotFoundException("Not found department with id: " + id);
     }
-
-    @Override
-    public List getByUserId(Object userId) {
-
-        for (int i = 0; i < repository.findAll().size(); i++) {
-            if (repository.findByUserId(userId).get(i).equals(userId)) {
-                return repository.findByUserId(userId);
-            }
-        }
-
-        throw new UserNotFoundException("Not found user with id: " + userId);
-    }
-
-    public List getByDateRange(Date startDate, Date endDate) {
-
-        return repository.findByDateRange(startDate, endDate);
-
-    }
-
-    @Override
-    public List getByDaterange(Date startDate, Date endDate) {
-        throw new  UnsupportedOperationException("Not supported yet.");
-
-    }
-
 }
-
-
-
