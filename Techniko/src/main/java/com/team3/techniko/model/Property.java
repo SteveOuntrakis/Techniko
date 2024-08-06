@@ -1,5 +1,6 @@
 package com.team3.techniko.model;
 
+import com.team3.techniko.model.enums.PropertyType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,8 +29,8 @@ public class Property {
 
     private int yearOfConstruction;
 
-    @Column(name = "property_type", nullable = false)
-    private String propertyType;
+    @Column(nullable = false)
+    private PropertyType propertyType;
 
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
@@ -38,7 +39,7 @@ public class Property {
     @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<PropertyRepair> repairs;
 
-    public Property(String address, String propertyType, PropertyOwner owner) {
+    public Property(String address, PropertyType propertyType, PropertyOwner owner) {
         this.address = address;
         this.propertyType = propertyType;
         this.owner = owner;

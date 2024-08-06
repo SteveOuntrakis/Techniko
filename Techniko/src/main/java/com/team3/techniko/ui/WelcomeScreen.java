@@ -149,7 +149,7 @@ public class WelcomeScreen {
     public boolean validatePropertyOwnerPassword(String password, PropertyOwner owner) {
         if (password.equals(owner.getPassword())) {
             System.out.println(Finals.DELIMITER + "\nWelcome in Owner");
-            new PropertyOwnerScreen().homeScreen();
+            new PropertyOwnerScreen().homeScreen(owner);
             return false;
         } else {
             System.out.println(Finals.DELIMITER + "\nInvalid Password or username, please try again");
