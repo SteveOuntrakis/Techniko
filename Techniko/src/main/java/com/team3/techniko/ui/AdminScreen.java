@@ -1,6 +1,8 @@
 package com.team3.techniko.ui;
 
+import com.sun.xml.bind.v2.TODO;
 import com.team3.techniko.Utils.Finals;
+import com.team3.techniko.exceptions.InvalidDateFormatException;
 import com.team3.techniko.model.PropertyRepair;
 import com.team3.techniko.model.enums.Status;
 import com.team3.techniko.repositories.RepositoryImpl;
@@ -144,7 +146,9 @@ public class AdminScreen {
                 try {
                     proposedStartDate = dateFormat.parse(input);
                 } catch (ParseException e) {
-                    System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
+                   // System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
+                    // TODO Δεν ειμαι σιγουρος αν αντι για sout θελει exception
+                    throw new InvalidDateFormatException("Invalid date format. Please enter the date in yyyy-MM-dd format");
                 }
             }
             chosenPropertyRepair.setProposedStartDate(proposedStartDate);
@@ -156,7 +160,8 @@ public class AdminScreen {
                 try {
                     proposedEndDate = dateFormat.parse(input);
                 } catch (ParseException e) {
-                    System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
+                   // System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
+                   throw new InvalidDateFormatException("Invalid date format. Please enter the date in yyyy-MM-dd format");
                 }
             }
             chosenPropertyRepair.setProposedEndDate(proposedEndDate);

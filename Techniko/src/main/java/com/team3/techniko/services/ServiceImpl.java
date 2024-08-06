@@ -4,6 +4,14 @@
  */
 package com.team3.techniko.services;
 
+import com.team3.techniko.exceptions.DepartmentNotFoundException;
+import com.team3.techniko.exceptions.DublicatePropertyOwnerException;
+import com.team3.techniko.exceptions.EmptyPropertyOwnerException;
+import com.team3.techniko.exceptions.InvalidEmailException;
+import com.team3.techniko.exceptions.InvalidPasswordException;
+import com.team3.techniko.exceptions.InvalidUserNameException;
+import com.team3.techniko.exceptions.PropertyOwnerNotFoundException;
+import com.team3.techniko.exceptions.UserNotFoundException;
 import com.team3.techniko.model.PropertyOwner;
 import com.team3.techniko.repositories.Repository;
 import java.util.Date;
@@ -33,7 +41,7 @@ public class ServiceImpl<T> implements Service {
 
             }
         }
-        throw new NoSuchElementException("Den vrethike  Property owner me id: " + id);
+        throw new PropertyOwnerNotFoundException("Den vrethike  Property owner me id: " + id);
 
     }
 
@@ -60,7 +68,8 @@ public class ServiceImpl<T> implements Service {
                 || propertyOwner.getEmail() == null || propertyOwner.getEmail().isEmpty()
                 || propertyOwner.getUsername() == null || propertyOwner.getUsername().isEmpty()
                 || propertyOwner.getPassword() == null || propertyOwner.getPassword().isEmpty()) {
-           throw new NoSuchElementException("The optional is empty, please add it");
+           
+            throw new EmptyPropertyOwnerException("The optional is empty, please add it");
         }
           
          
@@ -73,20 +82,22 @@ public class ServiceImpl<T> implements Service {
              
         // validate or if the VAT number is unique
         if (!propertyOwner.getVatNumber().isEmpty()) {
-            return Optional.empty();
+             throw new DublicatePropertyOwnerException("An owner was found with this VAT number");                      //return Optional.empty();
         }
 
         if (!propertyOwner.getEmail().isBlank()) {
             log.warn("Your email is empty please add your email");
-            return Optional.empty();
+            throw new InvalidEmailException("Your email is empty please add your email");   // return Optional.empty();
         }
 
         // validate or if the user name is unique
         if (!propertyOwner.getUsername().isBlank()) {
             log.warn("You username is incorrect, please add the real username");
+           throw new InvalidUserNameException("Your username is incorrect, please add the real username");
         }
         if (!propertyOwner.getPassword().isBlank()) {
            log.warn("You password is incorrect, please add the real password");
+           throw new InvalidPasswordException("Your password is incorrect, please add the real password");
         }
 
         return repository.save(propertyOwner);
@@ -101,7 +112,7 @@ public class ServiceImpl<T> implements Service {
                 break;
             }
         }
-        throw new NoSuchElementException("Den vrethike department me id: " + id);
+        throw new DepartmentNotFoundException("Not found department with id: " + id);
     }
 
     @Override
@@ -113,7 +124,7 @@ public class ServiceImpl<T> implements Service {
             }
         }
 
-        throw new NoSuchElementException("Den vrethike  user  me id: " + userId);
+        throw new UserNotFoundException("Not found user with id: " + userId);
     }
 
     public List getByDateRange(Date startDate, Date endDate) {
@@ -124,7 +135,7 @@ public class ServiceImpl<T> implements Service {
 
     @Override
     public List getByDaterange(Date startDate, Date endDate) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new  UnsupportedOperationException("Not supported yet.");
 
     }
 

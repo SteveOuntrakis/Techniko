@@ -1,5 +1,6 @@
 package com.team3.techniko.repositories;
 
+import com.team3.techniko.exceptions.RepositoryException;
 import com.team3.techniko.model.PropertyRepair;
 import com.team3.techniko.model.enums.Status;
 import java.util.Date;
@@ -27,10 +28,14 @@ public class RepositoryImpl<T> implements Repository<T, Long> {
             T t = entityManager.find(entityClass, id);
             entityManager.getTransaction().commit();
             return Optional.of(t);
-        } catch (Exception e) {
-            log.debug("An exception occured");
+        } catch (RepositoryException e) {
+            
+           log.debug("Failed to find entity by id:");
+           throw new RepositoryException("Failed to find entity by id: " + id);
         }
-        return Optional.empty();
+           
+           
+        // return Optional.empty();
     }
 
     @Override
@@ -48,8 +53,9 @@ public class RepositoryImpl<T> implements Repository<T, Long> {
             return Optional.of(t);
         } catch (Exception e) {
             log.debug("An exception occured");
+             throw new RepositoryException("Failed to find all entities : " + e);
         }
-        return Optional.empty();
+        //return Optional.empty();
     }
 
     @Override
@@ -62,8 +68,9 @@ public class RepositoryImpl<T> implements Repository<T, Long> {
                 entityManager.remove(persistentInstance);
                 entityManager.getTransaction().commit();
             } catch (Exception e) {
-                log.debug("An exception occured");
-                return false;
+                log.debug("An exception occured: " + id);
+                 throw new RepositoryException(e.getMessage());
+                // return false;
             }
             return true;
         }
@@ -109,5 +116,5 @@ public class RepositoryImpl<T> implements Repository<T, Long> {
                 .setParameter("propertyId", propertyId)
                 .getResultList();
     }
-
+            
 }
