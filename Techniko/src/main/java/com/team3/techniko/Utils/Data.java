@@ -4,6 +4,8 @@ import com.team3.techniko.model.Admin;
 import com.team3.techniko.model.Property;
 import com.team3.techniko.model.PropertyOwner;
 import com.team3.techniko.model.PropertyRepair;
+import com.team3.techniko.model.enums.PropertyType;
+import com.team3.techniko.model.enums.RepairType;
 import com.team3.techniko.model.enums.Status;
 import com.team3.techniko.repositories.RepositoryImpl;
 import java.util.Date;
@@ -38,21 +40,21 @@ public class Data {
 
         //Save Properties.
         RepositoryImpl repo4 = new RepositoryImpl(entityManager, Property.class);
-        Property stef = new Property("Chania", "Hotel", stefanos);
+        Property stef = new Property("Chania", PropertyType.HOUSE, stefanos);
         repo4.save(stef);
-        repo4.save(new Property("Chania", "Apartment", stefanos));
-        Property spir = new Property("Athens", "Hotel", spiros);
+        repo4.save(new Property("Chania", PropertyType.APARTMENT, stefanos));
+        Property spir = new Property("Athens", PropertyType.HOUSE, spiros);
         repo4.save(spir);
-        repo4.save(new Property("Athens", "Apartment", spiros));
-        Property panos = new Property("Patra", "Hotel", panagiotis);
+        repo4.save(new Property("Athens", PropertyType.APARTMENT, spiros));
+        Property panos = new Property("Patra",PropertyType.HOUSE, panagiotis);
         repo4.save(panos);
-        repo4.save(new Property("Patra", "Apartment", panagiotis));
+        repo4.save(new Property("Patra", PropertyType.APARTMENT, panagiotis));
 
         //Save Property Repair.
         RepositoryImpl repo3 = new RepositoryImpl(entityManager, PropertyRepair.class);
-        repo3.save(new PropertyRepair("Plumbing", "Losing water from toilet", new Date(), Status.PENDING, stef, stefanos));
-        repo3.save(new PropertyRepair("Electricity", "no lights in reception", new Date(), Status.PENDING, spir, spiros));
-        repo3.save(new PropertyRepair("Repair-Building", "Someone broke a whole wall", new Date(), Status.PENDING, panos, panagiotis));
+        repo3.save(new PropertyRepair(RepairType.PLUMBING, "Losing water from toilet", new Date(), Status.PENDING, stef, stefanos));
+        repo3.save(new PropertyRepair(RepairType.ELECTRICAL_WORK, "No lights in reception", new Date(), Status.PENDING, spir, spiros));
+        repo3.save(new PropertyRepair(RepairType.INSULATION, "Need to do some reworking..", new Date(), Status.PENDING, panos, panagiotis));
         entityManager.close();
         entityManagerFactory.close();
     }
