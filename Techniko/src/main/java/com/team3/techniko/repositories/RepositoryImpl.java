@@ -1,5 +1,6 @@
 package com.team3.techniko.repositories;
 
+import com.team3.techniko.model.PropertyRepair;
 import com.team3.techniko.model.enums.Status;
 import java.util.Date;
 import java.util.List;
@@ -102,4 +103,11 @@ public class RepositoryImpl<T> implements Repository<T, Long> {
                         .setParameter("status", status);
         return query.getResultList();
     }
+
+    public List<PropertyRepair> findAllByPropertyId(long propertyId) {
+        return entityManager.createQuery("SELECT r FROM PropertyRepair r WHERE r.property.id = :propertyId", PropertyRepair.class)
+                .setParameter("propertyId", propertyId)
+                .getResultList();
+    }
+
 }

@@ -113,6 +113,64 @@ public class WelcomeScreen {
         propertyOwner.setAddress(scanner.next());
         System.out.println(Finals.DELIMITER + "\nPlease insert your Phone number:");
         propertyOwner.setPhoneNumber(scanner.next());
-        propertyUserService.save(propertyOwner);
+        //TODO : save PropertyOwner using Services.
+        RepositoryImpl repo = new RepositoryImpl(entityManager, PropertyOwner.class);
+        repo.save(propertyOwner);
+
+    }
+
+    //TODO : put the classes below on Service Class.
+    public PropertyOwner findOwnerByUsername(String username) throws Exception {
+
+        RepositoryImpl<PropertyOwner> propertyOwner = new RepositoryImpl(entityManager, PropertyOwner.class);
+
+        if (username == null) {
+            //TODO : log System.out.println("Null Username name was given");
+        }
+        if (!username.chars().allMatch(Character::isLetter)) {
+            throw new Exception();
+        }
+        try {
+            List<PropertyOwner> owners = propertyOwner.findAllByUsername(username);
+            return owners.getFirst();
+
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    public Admin findAdminByUsername(String username) throws Exception {
+        RepositoryImpl<Admin> admin = new RepositoryImpl(entityManager, Admin.class);
+
+        List<Admin> admins = admin.findAllByUsername(username);
+
+        if (admins.isEmpty()) {
+            return null;
+        }
+        return admins.getFirst();
+    }
+
+    public boolean validateAdminsPassword(String password, Admin admin) {
+        if (password.equals(admin.getPassword())) {
+            System.out.println(Finals.DELIMITER + "\nWelcome in Admin");
+            new AdminScreen().homeScreen();
+            return false;
+        } else {
+            System.out.println(Finals.DELIMITER + "\nInvalid Password or username, please try again");
+            return true;
+        }
+
+    }
+
+    public boolean validatePropertyOwnerPassword(String password, PropertyOwner owner) {
+        if (password.equals(owner.getPassword())) {
+            System.out.println(Finals.DELIMITER + "\nWelcome in Owner");
+            new PropertyOwnerScreen().homeScreen(owner);
+            return false;
+        } else {
+            System.out.println(Finals.DELIMITER + "\nInvalid Password or username, please try again");
+            return true;
+        }
     }
 }
