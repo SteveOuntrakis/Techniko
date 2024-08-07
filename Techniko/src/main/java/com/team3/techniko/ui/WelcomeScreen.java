@@ -1,15 +1,12 @@
 package com.team3.techniko.ui;
 
-import com.team3.techniko.Utils.Finals;
-import com.team3.techniko.exceptions.UserNotFoundException;
 import com.team3.techniko.utils.Finals;
 import com.team3.techniko.model.Admin;
 import com.team3.techniko.model.PropertyOwner;
 import com.team3.techniko.model.PropertyRepair;
 import com.team3.techniko.repositories.RepositoryImpl;
 import com.team3.techniko.services.AdminService;
-import com.team3.techniko.services.PropertyUserService;
-import java.util.List;
+import com.team3.techniko.services.PropertyOwnerService;
 import java.util.Optional;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
@@ -21,7 +18,7 @@ public class WelcomeScreen {
     private final Scanner scanner;
     private final EntityManagerFactory entityManagerFactory;
     private final EntityManager entityManager;
-    private final PropertyUserService propertyUserService;
+    private final PropertyOwnerService propertyOwnerService;
     private final AdminService adminService;
 
     public WelcomeScreen() {
@@ -29,11 +26,10 @@ public class WelcomeScreen {
         this.entityManagerFactory = Persistence.createEntityManagerFactory("Technikon");
         this.entityManager = entityManagerFactory.createEntityManager();
 
-        // Initialize repositories and services
         RepositoryImpl<PropertyOwner> propertyOwnerRepo = new RepositoryImpl<>(entityManager, PropertyOwner.class);
         RepositoryImpl<Admin> adminRepo = new RepositoryImpl<>(entityManager, Admin.class);
         RepositoryImpl<PropertyRepair> propertyRepairRepo = new RepositoryImpl<>(entityManager, PropertyRepair.class);
-        this.propertyUserService = new PropertyUserService(propertyOwnerRepo);
+        this.propertyOwnerService = new PropertyOwnerService(propertyOwnerRepo);
         this.adminService = new AdminService(adminRepo, propertyRepairRepo);
     }
 
@@ -70,7 +66,7 @@ public class WelcomeScreen {
                 System.exit(0);
             }
 
-            Optional<PropertyOwner> propertyOwner = propertyUserService.findOwnerByUsername(username);
+            Optional<PropertyOwner> propertyOwner = propertyOwnerService.findOwnerByUsername(username);
             if (!propertyOwner.isPresent()) {
                 Optional<Admin> admin = adminService.findAdminByUsername(username);
                 System.out.println(Finals.DELIMITER + "\nPlease insert your password:");
@@ -88,7 +84,7 @@ public class WelcomeScreen {
             } else {
                 System.out.println(Finals.DELIMITER + "\nPlease insert your password:");
                 String password = scanner.next();
-                validation = !propertyUserService.validatePropertyOwnerPassword(password, propertyOwner.get());
+                validation = !propertyOwnerService.validatePropertyOwnerPassword(password, propertyOwner.get());
                 if (!validation) {
                     new PropertyOwnerScreen().homeScreen(propertyOwner.get());
                 }
@@ -115,65 +111,6 @@ public class WelcomeScreen {
         propertyOwner.setAddress(scanner.next());
         System.out.println(Finals.DELIMITER + "\nPlease insert your Phone number:");
         propertyOwner.setPhoneNumber(scanner.next());
-        //TODO : save PropertyOwner using Services.
-        RepositoryImpl repo = new RepositoryImpl(entityManager, PropertyOwner.class);
-        repo.save(propertyOwner);
-
-    }
-
-    //TODO : put the classes below on Service Class.
-    public PropertyOwner findOwnerByUsername(String username) throws Exception {
-
-        RepositoryImpl<PropertyOwner> propertyOwner = new RepositoryImpl(entityManager, PropertyOwner.class);
-
-        if (username == null) {
-            //TODO : log System.out.println("Null Username name was given");
-        }
-        if (!username.chars().allMatch(Character::isLetter)) {
-            throw new Exception();
-        }
-        try {
-            List<PropertyOwner> owners = propertyOwner.findAllByUsername(username);
-            return owners.getFirst();
-
-        } catch (Exception e) {
-            throw new UserNotFoundException("An error occurred wile fetching theproperty owner:  " + e.getMessage() );
-           // return null;
-        }
-
-    }
-
-    public Admin findAdminByUsername(String username) throws Exception {
-        RepositoryImpl<Admin> admin = new RepositoryImpl(entityManager, Admin.class);
-
-        List<Admin> admins = admin.findAllByUsername(username);
-
-        if (admins.isEmpty()) {
-            return null;
-        }
-        return admins.getFirst();
-    }
-
-    public boolean validateAdminsPassword(String password, Admin admin) {
-        if (password.equals(admin.getPassword())) {
-            System.out.println(Finals.DELIMITER + "\nWelcome in Admin");
-            new AdminScreen().homeScreen();
-            return false;
-        } else {
-            System.out.println(Finals.DELIMITER + "\nInvalid Password or username, please try again");
-            return true;
-        }
-
-    }
-
-    public boolean validatePropertyOwnerPassword(String password, PropertyOwner owner) {
-        if (password.equals(owner.getPassword())) {
-            System.out.println(Finals.DELIMITER + "\nWelcome in Owner");
-            new PropertyOwnerScreen().homeScreen(owner);
-            return false;
-        } else {
-            System.out.println(Finals.DELIMITER + "\nInvalid Password or username, please try again");
-            return true;
-        }
+        propertyOwnerService.save(propertyOwner);
     }
 }

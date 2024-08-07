@@ -7,8 +7,8 @@ package com.team3.techniko.exceptions;
 import java.util.NoSuchElementException;
 
  
-public class PropertyOwnerNotFoundException extends RuntimeException {
-    public PropertyOwnerNotFoundException(String message) {
+public class IdNotFoundException extends RuntimeException {
+    public IdNotFoundException(String message) {
         super(message);
     }
 }

@@ -5,9 +5,9 @@ import com.team3.techniko.repositories.Repository;
 import java.util.List;
 import java.util.Optional;
 
-public class PropertyUserService extends ServiceImpl<PropertyOwner> {
+public class PropertyOwnerService extends ServiceImpl<PropertyOwner> {
 
-    public PropertyUserService(Repository<PropertyOwner, Long> repository) {
+    public PropertyOwnerService(Repository<PropertyOwner, Long> repository) {
         super(repository);
     }
 
