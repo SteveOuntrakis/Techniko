@@ -7,6 +7,8 @@ import com.team3.techniko.model.enums.PropertyType;
 import com.team3.techniko.model.enums.RepairType;
 import com.team3.techniko.model.enums.Status;
 import com.team3.techniko.repositories.RepositoryImpl;
+import com.team3.techniko.services.PropertyRepairService;
+import com.team3.techniko.services.PropertyService;
 import com.team3.techniko.utils.Finals;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -24,6 +26,8 @@ public class PropertyOwnerScreen {
     private final Scanner scanner;
     private final EntityManagerFactory entityManagerFactory;
     private final EntityManager entityManager;
+    private final PropertyService propertyService;
+    private final PropertyRepairService propertyRepairService;
 
     /**
      * Constructor for PropertyOwnerScreen. Initializes the scanner,
@@ -33,6 +37,10 @@ public class PropertyOwnerScreen {
         this.scanner = new Scanner(System.in);
         this.entityManagerFactory = Persistence.createEntityManagerFactory("Technikon");
         this.entityManager = entityManagerFactory.createEntityManager();
+        RepositoryImpl<Property> properRepositoryImpl = new RepositoryImpl(entityManager, Property.class);
+        RepositoryImpl<PropertyRepair> repairRepository = new RepositoryImpl<>(entityManager, PropertyRepair.class);
+        this.propertyService = new PropertyService(properRepositoryImpl);
+        this.propertyRepairService = new PropertyRepairService(repairRepository);
     }
 
     /**
@@ -70,8 +78,7 @@ public class PropertyOwnerScreen {
      * @param owner The property owner.
      */
     private void showProperties(PropertyOwner owner) {
-        RepositoryImpl<Property> propertyRepository = new RepositoryImpl<>(entityManager, Property.class);
-        List<Property> properties = propertyRepository.findPropertiesByUserID(owner.getOwnerId());
+        List<Property> properties = propertyService.findPropertiesByUserID(owner.getOwnerId());
         if (properties.isEmpty()) {
             System.out.println("No properties found.");
         } else {
@@ -135,8 +142,7 @@ public class PropertyOwnerScreen {
      * Displays the details of a property.
      */
     private void viewPropertyDetails(PropertyOwner owner) {
-        RepositoryImpl<Property> propertyRepository = new RepositoryImpl<>(entityManager, Property.class);
-        List<Property> properties = propertyRepository.findPropertiesByUserID(owner.getOwnerId());
+        List<Property> properties = propertyService.findPropertiesByUserID(owner.getOwnerId());
         if (properties.isEmpty()) {
             System.out.println("No properties found.");
             return;
@@ -166,8 +172,8 @@ public class PropertyOwnerScreen {
      * @param propertyId The ID of the property.
      */
     private void showRepairsForProperty(Property chosenProperty) {
-        RepositoryImpl<PropertyRepair> repairRepository = new RepositoryImpl<>(entityManager, PropertyRepair.class);
-        List<PropertyRepair> repairs = repairRepository.findAllByPropertyId(chosenProperty.getPropertyId());
+        List<PropertyRepair> repairs = propertyRepairService.findAllByPropertyId(chosenProperty.getPropertyId());
+
         if (repairs.isEmpty()) {
             System.out.println("No repairs found for this property.");
         } else {
@@ -237,8 +243,8 @@ public class PropertyOwnerScreen {
      * @param propertyId The ID of the property.
      */
     private void acceptOrRefuseRepair(long propertyId) {
-        RepositoryImpl<PropertyRepair> repairRepository = new RepositoryImpl<>(entityManager, PropertyRepair.class);
-        List<PropertyRepair> repairs = repairRepository.findPendingRepairsForID(Status.PENDING, propertyId);
+        List<PropertyRepair> repairs = propertyRepairService.findPendingRepairsForID(Status.PENDING, propertyId);
+
         if (repairs.isEmpty()) {
             int input = -1;
             while (input != 0) {

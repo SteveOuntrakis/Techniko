@@ -1,11 +1,11 @@
 package com.team3.techniko.ui;
 
-import com.team3.techniko.Utils.Finals;
 import com.team3.techniko.exceptions.InvalidDateFormatException;
 import com.team3.techniko.utils.Finals;
 import com.team3.techniko.model.PropertyRepair;
 import com.team3.techniko.model.enums.Status;
 import com.team3.techniko.repositories.RepositoryImpl;
+import com.team3.techniko.services.PropertyRepairService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,24 +15,26 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-
 public class AdminScreen {
 
     private final Scanner scanner;
     private final EntityManagerFactory entityManagerFactory;
     private final EntityManager entityManager;
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private final PropertyRepairService propertyRepairService;
 
     public AdminScreen() {
         this.scanner = new Scanner(System.in);
         this.entityManagerFactory = Persistence.createEntityManagerFactory("Technikon");
         this.entityManager = entityManagerFactory.createEntityManager();
+        RepositoryImpl<PropertyRepair> propertyRepair = new RepositoryImpl(entityManager, PropertyRepair.class);
+        this.propertyRepairService = new PropertyRepairService(propertyRepair);
     }
 
     public void homeScreen() {
         int input = -1;
         while (input != 0 & input != 1 & input != 2 & input != 3) {
-            System.out.println(Finals.DELIMITER + "Please choose:"
+            System.out.println(Finals.DELIMITER + "\nPlease choose:"
                     + "\n1.Show Pending repairs"
                     + "\n2.Show all Scheduled repairs"
                     + "\n3.Show all Completed repairs"
@@ -62,8 +64,7 @@ public class AdminScreen {
 
     //Case 1: Show All pending Requests.
     public void showPendingRequests() {
-        RepositoryImpl<PropertyRepair> propertyRepair = new RepositoryImpl(entityManager, PropertyRepair.class);
-        List<PropertyRepair> pendingRepairs = propertyRepair.findPendingRepairs(Status.PENDING);
+        List<PropertyRepair> pendingRepairs = propertyRepairService.findPendingRepairs(Status.PENDING);
         if (pendingRepairs.isEmpty()) {
             System.out.println(Finals.DELIMITER + "\nEmpty List");
         } else {
@@ -94,12 +95,11 @@ public class AdminScreen {
 
     //Case 2: Show All In progress Repairs. 
     public void showAllScheduledRepairs() {
-        RepositoryImpl<PropertyRepair> propertyRepair = new RepositoryImpl(entityManager, PropertyRepair.class);
-        List<PropertyRepair> pendingRepairs = propertyRepair.findPendingRepairs(Status.IN_PROGRESS);
-        if (pendingRepairs.isEmpty()) {
-            System.out.println(Finals.DELIMITER + "\nEmpty List");
+        List<PropertyRepair> repairsInProgress = propertyRepairService.findPendingRepairs(Status.IN_PROGRESS);
+        if (repairsInProgress.isEmpty()) {
+            System.out.println(Finals.DELIMITER + "\nYou have not pending repairs.");
         } else {
-            for (PropertyRepair repair : pendingRepairs) {
+            for (PropertyRepair repair : repairsInProgress) {
                 System.out.println(Finals.DELIMITER);
                 System.out.println("\n" + repair);
             }
@@ -108,12 +108,11 @@ public class AdminScreen {
 
     //Case 3: Show All completed Repairs.
     public void showAllCompletedRepairs() {
-        RepositoryImpl<PropertyRepair> propertyRepair = new RepositoryImpl(entityManager, PropertyRepair.class);
-        List<PropertyRepair> pendingRepairs = propertyRepair.findPendingRepairs(Status.COMPLETED);
-        if (pendingRepairs.isEmpty()) {
-            System.out.println(Finals.DELIMITER + "\nEmpty List");
+        List<PropertyRepair> completedRepairs = propertyRepairService.findPendingRepairs(Status.COMPLETED);
+        if (completedRepairs.isEmpty()) {
+            System.out.println(Finals.DELIMITER + "\nYou have not completed repairs.");
         } else {
-            for (PropertyRepair repair : pendingRepairs) {
+            for (PropertyRepair repair : completedRepairs) {
                 System.out.println(Finals.DELIMITER);
                 System.out.println("\n" + repair);
             }
@@ -147,9 +146,11 @@ public class AdminScreen {
                 try {
                     proposedStartDate = dateFormat.parse(input);
                 } catch (ParseException e) {
-                   // System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
-                    // TODO Δεν ειμαι σιγουρος αν αντι για sout θελει exception
-                    throw new InvalidDateFormatException("Invalid date format. Please enter the date in yyyy-MM-dd format");
+                    try {
+                        throw new InvalidDateFormatException("Invalid date format. Please enter the date in yyyy-MM-dd format");
+                    } catch (InvalidDateFormatException ex) {
+                        ex.getMessage();
+                    }
                 }
             }
             chosenPropertyRepair.setProposedStartDate(proposedStartDate);
@@ -161,8 +162,11 @@ public class AdminScreen {
                 try {
                     proposedEndDate = dateFormat.parse(input);
                 } catch (ParseException e) {
-                   // System.out.println("Invalid date format. Please enter the date in yyyy-MM-dd format.");
-                   throw new InvalidDateFormatException("Invalid date format. Please enter the date in yyyy-MM-dd format");
+                    try {
+                        throw new InvalidDateFormatException("Invalid date format. Please enter the date in yyyy-MM-dd format:");
+                    } catch (InvalidDateFormatException ex) {
+                        ex.getMessage();
+                    }
                 }
             }
             chosenPropertyRepair.setProposedEndDate(proposedEndDate);
@@ -175,7 +179,6 @@ public class AdminScreen {
             }
         }
         chosenPropertyRepair.setOwnerAcceptance(false);
-        RepositoryImpl repo = new RepositoryImpl(entityManager, PropertyRepair.class);
-        repo.save(chosenPropertyRepair);
+        propertyRepairService.save(chosenPropertyRepair);
     }
 }

@@ -8,8 +8,9 @@ package com.team3.techniko.exceptions;
  *
  * @author Panagiotis
  */
-public class InvalidDateFormatException extends RuntimeException{
-    public InvalidDateFormatException(String message){
-        super(message);
+public class InvalidDateFormatException extends Exception {
+
+    public InvalidDateFormatException(String message) {
+        System.out.println(message);
     }
 }

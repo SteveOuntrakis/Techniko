@@ -1,7 +1,6 @@
 package com.team3.techniko.repositories;
 
 import com.team3.techniko.exceptions.RepositoryException;
-import com.team3.techniko.model.PropertyRepair;
 import com.team3.techniko.model.enums.Status;
 import java.util.Date;
 import java.util.List;
@@ -29,12 +28,11 @@ public class RepositoryImpl<T> implements Repository<T, Long> {
             entityManager.getTransaction().commit();
             return Optional.of(t);
         } catch (RepositoryException e) {
-            
-           log.debug("Failed to find entity by id:");
-           throw new RepositoryException("Failed to find entity by id: " + id);
+
+            log.debug("Failed to find entity by id:");
+            throw new RepositoryException("Failed to find entity by id: " + id);
         }
-           
-           
+
         // return Optional.empty();
     }
 
@@ -53,7 +51,7 @@ public class RepositoryImpl<T> implements Repository<T, Long> {
             return Optional.of(t);
         } catch (Exception e) {
             log.debug("An exception occured");
-             throw new RepositoryException("Failed to find all entities : " + e);
+            throw new RepositoryException("Failed to find all entities : " + e);
         }
         //return Optional.empty();
     }
@@ -69,7 +67,7 @@ public class RepositoryImpl<T> implements Repository<T, Long> {
                 entityManager.getTransaction().commit();
             } catch (Exception e) {
                 log.debug("An exception occured: " + id);
-                 throw new RepositoryException(e.getMessage());
+                throw new RepositoryException(e.getMessage());
                 // return false;
             }
             return true;
@@ -102,6 +100,7 @@ public class RepositoryImpl<T> implements Repository<T, Long> {
         return query.getResultList();
     }
 
+    @Override
     public List<T> findPendingRepairs(Status status) {
         TypedQuery<T> query
                 = entityManager.createQuery("from " + entityClass.getName()
@@ -110,16 +109,19 @@ public class RepositoryImpl<T> implements Repository<T, Long> {
                         .setParameter("status", status);
         return query.getResultList();
     }
-    public List<T> findPendingRepairsForID(Status status,Long id) {
+
+    @Override
+    public List<T> findPendingRepairsForID(Status status, Long id) {
         TypedQuery<T> query
                 = entityManager.createQuery("from " + entityClass.getName()
                         + " where Status like :status and property_id like :property_id ",
                         entityClass)
                         .setParameter("status", status)
-                        .setParameter("property_id", id);       
+                        .setParameter("property_id", id);
         return query.getResultList();
     }
 
+    @Override
     public List<T> findPropertiesByUserID(Long userId) {
         TypedQuery<T> query
                 = entityManager.createQuery("from " + entityClass.getName()
@@ -129,6 +131,7 @@ public class RepositoryImpl<T> implements Repository<T, Long> {
         return query.getResultList();
     }
 
+    @Override
     public List<T> findAllByPropertyId(Long propertyId) {
         TypedQuery<T> query = entityManager.createQuery("from " + entityClass.getName()
                 + " where property_id like :propertyId",

@@ -1,17 +1,14 @@
 package com.team3.techniko.services;
 
+import com.team3.techniko.exceptions.NotFoundException;
+import com.team3.techniko.exceptions.IdNotFoundException;
 import com.team3.techniko.repositories.Repository;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-public class ServiceImpl<T> implements Service<T,Long> {
+public class ServiceImpl<T> implements Service<T, Long> {
 
     protected final Repository<T, Long> repository;
-    // with this command he stopped reddening the log
-    private static final Logger log = LoggerFactory.getLogger(ServiceImpl.class);
 
     public ServiceImpl(Repository<T, Long> repository) {
         this.repository = repository;
@@ -26,7 +23,7 @@ public class ServiceImpl<T> implements Service<T,Long> {
 
             }
         }
-        throw new PropertyOwnerNotFoundException("Den vrethike  Property owner me id: " + id);
+        throw new IdNotFoundException("Den vrethike" + repository.getClass() + " me id: " + id);
 
     }
 
@@ -54,6 +51,6 @@ public class ServiceImpl<T> implements Service<T,Long> {
                 break;
             }
         }
-        throw new DepartmentNotFoundException("Not found department with id: " + id);
+        throw new NotFoundException("Id not found ");
     }
 }

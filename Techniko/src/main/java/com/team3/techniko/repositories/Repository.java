@@ -22,4 +22,10 @@ public interface Repository<T, K> {
     List<T> findAllByUsername(String username);
     
     List<T> findPendingRepairs(Status status);
+    
+    List<T> findAllByPropertyId(Long propertyId);
+    
+    List<T> findPropertiesByUserID(Long userId);
+    
+    List<T> findPendingRepairsForID(Status status,Long id);
 }

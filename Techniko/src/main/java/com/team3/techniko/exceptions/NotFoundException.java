@@ -10,9 +10,9 @@ import java.util.NoSuchElementException;
  *
  * @author Panagiotis
  */
-public class DepartmentNotFoundException extends NoSuchElementException{
+public class NotFoundException extends NoSuchElementException{
     
-    public DepartmentNotFoundException(String message) {
+    public NotFoundException(String message) {
         super(message);
     }
 }

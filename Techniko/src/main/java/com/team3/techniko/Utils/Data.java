@@ -46,7 +46,7 @@ public class Data {
         Property spir = new Property("Athens", PropertyType.HOUSE, spiros);
         repo4.save(spir);
         repo4.save(new Property("Athens", PropertyType.APARTMENT, spiros));
-        Property panos = new Property("Patra",PropertyType.HOUSE, panagiotis);
+        Property panos = new Property("Patra", PropertyType.HOUSE, panagiotis);
         repo4.save(panos);
         repo4.save(new Property("Patra", PropertyType.APARTMENT, panagiotis));
 

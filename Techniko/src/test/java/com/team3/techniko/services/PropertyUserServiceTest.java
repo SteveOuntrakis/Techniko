@@ -19,7 +19,7 @@ public class PropertyUserServiceTest {
     private Repository repository;
 
     @InjectMocks
-    private PropertyUserService propertyUserService;
+    private PropertyOwnerService propertyUserService;
 
     @BeforeEach
     public void setUp() {
