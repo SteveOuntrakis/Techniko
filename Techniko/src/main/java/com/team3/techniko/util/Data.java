@@ -1,4 +1,4 @@
-package com.team3.techniko.utils;
+package com.team3.techniko.util;
 
 import com.team3.techniko.model.Admin;
 import com.team3.techniko.model.Property;

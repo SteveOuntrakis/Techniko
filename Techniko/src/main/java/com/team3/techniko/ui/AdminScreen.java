@@ -2,7 +2,7 @@ package com.team3.techniko.ui;
 
 import com.team3.techniko.exceptions.InvalidDateFormatException;
 import com.team3.techniko.model.PropertyOwner;
-import com.team3.techniko.utils.Finals;
+import com.team3.techniko.util.Finals;
 import com.team3.techniko.model.PropertyRepair;
 import com.team3.techniko.model.enums.Status;
 import com.team3.techniko.repositories.RepositoryImpl;
@@ -79,32 +79,37 @@ public class AdminScreen {
         if (pendingRepairs.isEmpty()) {
             System.out.println(Finals.DELIMITER + "\nEmpty List");
         } else {
-            int i = 0;
             System.out.println(Finals.DELIMITER + "\nPlease choose the number of the chosen repair below:");
             for (PropertyRepair repair : pendingRepairs) {
                 System.out.println(Finals.DELIMITER);
-                i++;
-                writeRepairDetails(repair, i);
+                writeRepairDetails(repair);
             }
         }
+
         System.out.println(Finals.DELIMITER);
         int input = -1;
-        while (input <= 0 || input > pendingRepairs.size()) {
+        while (input <= 0) {
             System.out.println("Please insert the number of the Pending request or 0 to Exit the console.");
             while (!scanner.hasNextInt()) {
                 System.out.println("Please insert a number...");
                 scanner.next();
             }
             input = scanner.nextInt();
-            if (input == 0) {
-                System.exit(0);
+            for (PropertyRepair repair : pendingRepairs) {
+                if (repair.getRepairId() == input) {
+                    updatePendingRequest(repair);
+                    break;
+                } else if (input == 0) {
+                    System.exit(0);
+                }
             }
+
         }
-        updatePendingRequest(pendingRepairs.get(input - 1));
+
         System.out.println(Finals.DELIMITER + "\n" + input);
     }
-
     //Case 2: Show All In progress Repairs. 
+
     public void showAllScheduledRepairs() {
         List<PropertyRepair> repairsInProgress = propertyRepairService.findPendingRepairs(Status.IN_PROGRESS);
         if (repairsInProgress.isEmpty()) {
@@ -130,8 +135,8 @@ public class AdminScreen {
         }
     }
 
-    private void writeRepairDetails(PropertyRepair repair, int i) {
-        System.out.println("\n" + i + ". " + "repairId=" + repair.getRepairId() + ", repairType="
+    private void writeRepairDetails(PropertyRepair repair) {
+        System.out.println("\n" +  repair.getRepairId() + ", repairType="
                 + repair.getRepairType() + ", shortDescription=" + repair.getShortDescription()
                 + ", dateSubmitted=" + repair.getDateSubmitted() + ", description=" + repair.getDescription());
     }

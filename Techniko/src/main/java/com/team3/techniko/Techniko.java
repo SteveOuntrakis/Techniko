@@ -1,7 +1,7 @@
 package com.team3.techniko;
 
 import com.team3.techniko.ui.WelcomeScreen;
-import com.team3.techniko.utils.Data;
+import com.team3.techniko.util.Data;
 
 public class Techniko extends Exception {
 
