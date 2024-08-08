@@ -69,7 +69,7 @@ public class PropertyRepair {
 
     @Override
     public String toString() {
-        return "repairId=" + repairId + ", repairType=" + repairType + ", shortDescription=" + shortDescription + ", dateSubmitted=" + dateSubmitted + ", description=" + description;
+        return "repairId=" + repairId + ", repairType=" + repairType +", status="+Status+ ", shortDescription=" + shortDescription + ", dateSubmitted=" + dateSubmitted + ", description=" + description;
     }
 
 }

@@ -57,4 +57,9 @@ public class PropertyOwner {
         this.username = username;
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "PropertyOwner{" + "ownerId=" + ownerId + ", vatNumber=" + vatNumber + ", name=" + name + ", surname=" + surname + ", address=" + address + ", phoneNumber=" + phoneNumber + ", email=" + email + ", username=" + username + ", password=" + password + '}';
+    }
 }

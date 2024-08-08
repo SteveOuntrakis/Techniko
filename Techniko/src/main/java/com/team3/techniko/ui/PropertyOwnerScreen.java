@@ -51,7 +51,7 @@ public class PropertyOwnerScreen {
     public void homeScreen(PropertyOwner owner) {
         int input = -1;
         while (input != 0) {
-            System.out.println(Finals.DELIMITER + "Please choose:"
+            System.out.println(Finals.DELIMITER + "\nPlease choose:"
                     + "\n1. Show My Properties"
                     + "\n0. Exit");
             while (!scanner.hasNextInt()) {
@@ -82,12 +82,14 @@ public class PropertyOwnerScreen {
         if (properties.isEmpty()) {
             System.out.println("No properties found.");
         } else {
-            properties.forEach(property -> System.out.println("Property ID: " + property.getPropertyId() + ", Address: " + property.getAddress()));
+            System.out.println(Finals.DELIMITER);
+            properties.forEach(property -> System.out.println(
+                    "Property ID: " + property.getPropertyId() + ", Address: " + property.getAddress()));
         }
 
         int input = -1;
         while (input != 0) {
-            System.out.println(Finals.DELIMITER + "Please choose:"
+            System.out.println(Finals.DELIMITER + "\nPlease choose:"
                     + "\n1. Add New Property"
                     + "\n2. View Property Details"
                     + "\n0. Exit");
@@ -116,6 +118,8 @@ public class PropertyOwnerScreen {
      * Adds a new property for the property owner.
      *
      * @param owner The property owner.
+     * 
+     * 4.2.1 Owner registration with two properties
      */
     private void addNewProperty(PropertyOwner owner) {
         System.out.println("Enter Property Address:");
@@ -140,6 +144,7 @@ public class PropertyOwnerScreen {
 
     /**
      * Displays the details of a property.
+     * 4.5 Reports
      */
     private void viewPropertyDetails(PropertyOwner owner) {
         List<Property> properties = propertyService.findPropertiesByUserID(owner.getOwnerId());
@@ -147,11 +152,12 @@ public class PropertyOwnerScreen {
             System.out.println("No properties found.");
             return;
         } else {
-            properties.forEach(property -> System.out.println("Property ID: " + property.getPropertyId() + ", Address: " + property.getAddress()));
+            properties.forEach(property -> System.out.println(Finals.DELIMITER
+                    +"\nProperty ID: " + property.getPropertyId() + ", Address: " + property.getAddress()));
         }
         int input = -1;
         while (input <= 0 || input > properties.size()) {
-            System.out.println("Enter property ID to view details or 0 to Exit:");
+            System.out.println(Finals.DELIMITER+"\nEnter property ID to view details or 0 to Exit:");
             while (!scanner.hasNextInt()) {
                 System.out.println("Please insert a number...");
                 scanner.next();
@@ -181,7 +187,7 @@ public class PropertyOwnerScreen {
         }
 
         int input = -1;
-        while (input != 0 & input != 1 & input != 2 & input != 3) {
+        while (input <0 || input>3 ) {
             System.out.println(Finals.DELIMITER + "\nPlease choose:"
                     + "\n1. Request a New Repair"
                     + "\n2. Accept/Refuse Repair"
@@ -215,13 +221,14 @@ public class PropertyOwnerScreen {
      * Requests a new repair for a property.
      *
      * @param propertyId The ID of the property.
+     * 4.3 Repair registration
      */
     private void requestNewRepair(long propertyId) {
         System.out.println(Finals.DELIMITER + "\nChoose type of repair: \n1. PAINTING \n2. INSULATION \n3. FRAMES \n4. PLUMBING \n5. ELECTRICAL_WORK");
         int repairTypeInput = scanner.nextInt();
         RepairType repairType = RepairType.values()[repairTypeInput - 1];
         System.out.println("Enter short description of the repair:");
-        scanner.nextLine(); // consume newline
+        scanner.nextLine();
         String description = scanner.nextLine();
 
         PropertyRepair newRepair = new PropertyRepair();
@@ -229,8 +236,8 @@ public class PropertyOwnerScreen {
         newRepair.setRepairType(repairType);
         newRepair.setDescription(description);
         newRepair.setDateSubmitted(new Date());
-        newRepair.setStatus(Status.PENDING); // Set the status to PENDING
-        newRepair.setOwnerAcceptance(false); // Initial acceptance state
+        newRepair.setStatus(Status.PENDING);
+        newRepair.setOwnerAcceptance(false);
 
         RepositoryImpl<PropertyRepair> repairRepository = new RepositoryImpl<>(entityManager, PropertyRepair.class);
         repairRepository.save(newRepair);
@@ -303,6 +310,8 @@ public class PropertyOwnerScreen {
      * Updates the details of a property.
      *
      * @param propertyId The ID of the property.
+     * 
+     * 4.2.2 Owner registration with two properties
      */
     private void updatePropertyDetails(long propertyId) {
         Property property = entityManager.find(Property.class, propertyId);
@@ -322,7 +331,7 @@ public class PropertyOwnerScreen {
                 System.out.println("Enter new year of construction:");
                 int newYearOfConstruction = scanner.nextInt();
                 property.setYearOfConstruction(newYearOfConstruction);
-                scanner.nextLine(); // consume newline
+                scanner.nextLine();
             }
 
             System.out.println("Do you want to update the property type? (yes/no):");
@@ -332,7 +341,7 @@ public class PropertyOwnerScreen {
                 int propertyTypeInput = scanner.nextInt();
                 PropertyType newPropertyType = PropertyType.values()[propertyTypeInput - 1];
                 property.setPropertyType(newPropertyType);
-                scanner.nextLine(); // consume newline
+                scanner.nextLine();
             }
 
             entityManager.getTransaction().begin();

@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.mockito.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -15,16 +14,14 @@ import static org.mockito.Mockito.when;
 
 public class PropertyUserServiceTest {
 
-    @Mock
-    private Repository repository;
+    private Repository repository =Mockito.mock(Repository.class);
 
-    @InjectMocks
-    private PropertyOwnerService propertyUserService;
+    private PropertyOwnerService propertyUserService = new PropertyOwnerService(repository);
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
+//    @BeforeEach
+//    public void setUp() {
+//        MockitoAnnotations.openMocks(this);
+//    }
 
     @Test
     public void testFindOwnerByUsername() {

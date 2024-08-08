@@ -1,10 +1,12 @@
 package com.team3.techniko.ui;
 
 import com.team3.techniko.exceptions.InvalidDateFormatException;
+import com.team3.techniko.model.PropertyOwner;
 import com.team3.techniko.utils.Finals;
 import com.team3.techniko.model.PropertyRepair;
 import com.team3.techniko.model.enums.Status;
 import com.team3.techniko.repositories.RepositoryImpl;
+import com.team3.techniko.services.PropertyOwnerService;
 import com.team3.techniko.services.PropertyRepairService;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,6 +24,7 @@ public class AdminScreen {
     private final EntityManager entityManager;
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private final PropertyRepairService propertyRepairService;
+    private final PropertyOwnerService propertyOwnerService;
 
     public AdminScreen() {
         this.scanner = new Scanner(System.in);
@@ -29,15 +32,18 @@ public class AdminScreen {
         this.entityManager = entityManagerFactory.createEntityManager();
         RepositoryImpl<PropertyRepair> propertyRepair = new RepositoryImpl(entityManager, PropertyRepair.class);
         this.propertyRepairService = new PropertyRepairService(propertyRepair);
+        RepositoryImpl<PropertyOwner> propertyOwner = new RepositoryImpl(entityManager, PropertyOwner.class);
+        this.propertyOwnerService = new PropertyOwnerService(propertyOwner);
     }
 
     public void homeScreen() {
         int input = -1;
-        while (input != 0 & input != 1 & input != 2 & input != 3) {
+        while (input < 0 || input > 4) {
             System.out.println(Finals.DELIMITER + "\nPlease choose:"
                     + "\n1.Show Pending repairs"
                     + "\n2.Show all Scheduled repairs"
                     + "\n3.Show all Completed repairs"
+                    + "\n4.View Property Owners"
                     + "\n0.Exit");
             while (!scanner.hasNextInt()) {
                 System.out.println("Please insert a number...");
@@ -55,6 +61,9 @@ public class AdminScreen {
             case 3:
                 showAllCompletedRepairs();
                 break;
+            case 4:
+                viewPropertyOwners();
+                break;
             case 0:
                 System.exit(input);
             default:
@@ -62,7 +71,9 @@ public class AdminScreen {
         }
     }
 
-    //Case 1: Show All pending Requests.
+    // 4.4.1 Repair administration
+    // 4.5 Reports
+    // Case 1: Show All pending Requests.   
     public void showPendingRequests() {
         List<PropertyRepair> pendingRepairs = propertyRepairService.findPendingRepairs(Status.PENDING);
         if (pendingRepairs.isEmpty()) {
@@ -125,6 +136,7 @@ public class AdminScreen {
                 + ", dateSubmitted=" + repair.getDateSubmitted() + ", description=" + repair.getDescription());
     }
 
+    // 4.4.2 Repair administration
     private void updatePendingRequest(PropertyRepair chosenPropertyRepair) {
         System.out.println("Please enter the cost: ");
         Double cost = -1.0;
@@ -180,5 +192,50 @@ public class AdminScreen {
         }
         chosenPropertyRepair.setOwnerAcceptance(false);
         propertyRepairService.save(chosenPropertyRepair);
+    }
+
+    private void viewPropertyOwners() {
+        List<PropertyOwner> propertyOwners = propertyOwnerService.getAll();
+        System.out.println(Finals.DELIMITER);
+        for (PropertyOwner owner : propertyOwners) {
+            System.out.println(owner);
+        }
+        int input = -1;
+        while (input != 0 & input != 1) {
+            System.out.println(Finals.DELIMITER + "\nPlease choose:"
+                    + "\n1.Delete property owner."
+                    + "\n0.Exit system.");
+            while (!scanner.hasNextInt()) {
+                System.out.println("Please insert a number...");
+                scanner.next();
+            }
+            input = scanner.nextInt();
+            if (input == 0) {
+                System.exit(0);
+            }
+        }
+        deletePropertyOwner(propertyOwners);
+
+    }
+
+    private void deletePropertyOwner(List<PropertyOwner> propertyOwners) {
+        long input = -1;
+        while (input < 0) {
+            System.out.println(Finals.DELIMITER + "\nPlease give me the id of the owner you want to delete or put 0 to exit");
+            while (!scanner.hasNextLong()) {
+                System.out.println("Please insert a number...");
+                scanner.next();
+            }
+            input = scanner.nextLong();
+            for (PropertyOwner owner : propertyOwners) {
+                if (owner.getOwnerId() == input) {
+                    propertyOwnerService.deleteById(input);
+                    System.out.println("Succesfully deleted owner.");
+                    break;
+                } else if (input == 0) {
+                    System.exit(0);
+                }
+            }
+        }
     }
 }
