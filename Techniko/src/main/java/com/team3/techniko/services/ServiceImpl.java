@@ -1,7 +1,5 @@
 package com.team3.techniko.services;
 
-import com.team3.techniko.exceptions.IdNotFoundException;
-import com.team3.techniko.exceptions.NotFoundException;
 import com.team3.techniko.repositories.Repository;
 import java.util.List;
 import java.util.Optional;
@@ -16,15 +14,7 @@ public class ServiceImpl<T> implements Service<T, Long> {
 
     @Override
     public Optional<T> getById(Long id) {
-
-        for (int i = 0; i < repository.findAll().size(); i++) {
-            if (repository.findAll().get(i).equals(id)) {
-                return repository.findById(id);
-
-            }
-        }
-        throw new IdNotFoundException("Den vrethike" + repository.getClass() + " me id: " + id);
-
+        return repository.findById(id);
     }
 
     @Override
@@ -39,12 +29,6 @@ public class ServiceImpl<T> implements Service<T, Long> {
 
     @Override
     public boolean deleteById(Long id) {
-
-        for (int i = 0; i < repository.findAll().size(); i++) {
-            if (repository.findAll().get(i).equals(id)) {
-                return repository.deleteById(id);
-            }
-        }
-        throw new NotFoundException("Id not found ");
+        return repository.deleteById(id);
     }
 }

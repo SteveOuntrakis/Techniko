@@ -28,12 +28,9 @@ public class RepositoryImpl<T> implements Repository<T, Long> {
             entityManager.getTransaction().commit();
             return Optional.of(t);
         } catch (RepositoryException e) {
-
             log.debug("Failed to find entity by id:");
             throw new RepositoryException("Failed to find entity by id: " + id);
         }
-
-        // return Optional.empty();
     }
 
     @Override
@@ -53,14 +50,12 @@ public class RepositoryImpl<T> implements Repository<T, Long> {
             log.debug("An exception occured");
             throw new RepositoryException("Failed to find all entities : " + e);
         }
-        //return Optional.empty();
     }
 
     @Override
     public boolean deleteById(Long id) {
         T persistentInstance = entityManager.find(entityClass, id);
         if (persistentInstance != null) {
-
             try {
                 entityManager.getTransaction().begin();
                 entityManager.remove(persistentInstance);

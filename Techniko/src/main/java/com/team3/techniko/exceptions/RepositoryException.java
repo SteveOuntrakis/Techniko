@@ -8,8 +8,9 @@ package com.team3.techniko.exceptions;
  *
  * @author Panagiotis
  */
-public class RepositoryException extends  RuntimeException{
-    public  RepositoryException(String message) {
+public class RepositoryException extends RuntimeException {
+
+    public RepositoryException(String message) {
         super(message);
     }
 }

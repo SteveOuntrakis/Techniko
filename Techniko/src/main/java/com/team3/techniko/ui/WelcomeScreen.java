@@ -1,6 +1,6 @@
 package com.team3.techniko.ui;
 
-import com.team3.techniko.utils.Finals;
+import com.team3.techniko.util.Finals;
 import com.team3.techniko.model.Admin;
 import com.team3.techniko.model.PropertyOwner;
 import com.team3.techniko.model.PropertyRepair;
